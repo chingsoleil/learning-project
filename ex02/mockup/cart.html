@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>購物車 - 點餐系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    maxWidth: {
+                        'mobile': '480px'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 主容器 -->
+    <div class="mx-auto max-w-mobile min-h-screen bg-white shadow-lg">
+        <!-- 標題列 -->
+        <header class="bg-blue-600 text-white p-4">
+            <h1 class="text-lg font-semibold">購物車</h1>
+            <div class="text-sm mt-1 opacity-90">步驟 5/9 · 台北信義店 · 外帶</div>
+        </header>
+
+        <!-- 進度條 -->
+        <div class="bg-gray-200 h-2">
+            <div class="bg-blue-600 h-2 transition-all duration-300" style="width: 55.5%"></div>
+        </div>
+
+        <!-- 內容區 -->
+        <main class="pb-20">
+            <!-- 購物車品項 -->
+            <div class="p-4">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">已選擇餐點</h2>
+                
+                <div class="space-y-4" id="cartItems">
+                    <!-- 購物車品項會由 JavaScript 動態產生 -->
+                </div>
+
+                <!-- 空購物車提示 -->
+                <div class="text-center py-8 hidden" id="emptyCart">
+                    <div class="text-gray-400 text-6xl mb-4">🛒</div>
+                    <p class="text-gray-500">購物車是空的</p>
+                    <button class="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" onclick="goToMenu()">
+                        去選擇餐點
+                    </button>
+                </div>
+            </div>
+
+            <!-- 金額彙總 -->
+            <div class="px-4 pb-4" id="cartSummary">
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">訂單摘要</h3>
+                    
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">小計</span>
+                            <span class="font-medium" id="subtotal">$0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">折扣</span>
+                            <span class="font-medium text-green-600" id="discount">-$0</span>
+                        </div>
+                        <div class="border-t border-gray-300 pt-2 mt-2">
+                            <div class="flex justify-between">
+                                <span class="text-lg font-semibold text-gray-900">應付總額</span>
+                                <span class="text-lg font-bold text-blue-600" id="grandTotal">$0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 優惠碼 -->
+                    <div class="mt-4 pt-4 border-t border-gray-300">
+                        <div class="flex gap-2">
+                            <input type="text" placeholder="輸入優惠碼" class="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="promoCode">
+                            <button class="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors" onclick="applyPromoCode()">
+                                套用
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 繼續選購 -->
+            <div class="px-4">
+                <button class="w-full py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors" onclick="goToMenu()">
+                    + 繼續選購
+                </button>
+            </div>
+        </main>
+
+        <!-- 底部導覽 -->
+        <footer class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-mobile bg-white border-t border-gray-200 p-4">
+            <div class="flex gap-3">
+                <button class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors" onclick="goBack()">
+                    返回
+                </button>
+                <button class="flex-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" id="checkoutBtn" onclick="proceedToCheckout()">
+                    前往結帳
+                </button>
+                <button class="px-4 py-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors" onclick="goToStoreSelect()">
+                    🏠
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let cart = [];
+        let subtotal = 0;
+        let discountTotal = 0;
+        let grandTotal = 0;
+
+        // 初始化頁面
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCart();
+            renderCart();
+            updateSummary();
+        });
+
+        function loadCart() {
+            cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+            
+            // 如果購物車為空，添加示例商品
+            if (cart.length === 0) {
+                cart = [
+                    {
+                        productId: '1',
+                        productName: '招牌牛肉飯',
+                        unitPrice: 120,
+                        quantity: 1,
+                        options: {
+                            spicy: { value: 'none', price: 0 },
+                            rice: { value: 'extra', price: 10 },
+                            sauce: { value: 'normal', price: 0 }
+                        },
+                        customNote: '少油',
+                        lineTotal: 130
+                    },
+                    {
+                        productId: '5',
+                        productName: '紅茶',
+                        unitPrice: 30,
+                        quantity: 2,
+                        options: {
+                            size: { value: 'large', price: 5 },
+                            ice: { value: 'less', price: 0 },
+                            sugar: { value: 'half', price: 0 }
+                        },
+                        customNote: '',
+                        lineTotal: 70
+                    }
+                ];
+                sessionStorage.setItem('cart', JSON.stringify(cart));
+            }
+        }
+
+        function renderCart() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const emptyCart = document.getElementById('emptyCart');
+            const cartSummary = document.getElementById('cartSummary');
+
+            if (cart.length === 0) {
+                cartItemsContainer.classList.add('hidden');
+                cartSummary.classList.add('hidden');
+                emptyCart.classList.remove('hidden');
+                return;
+            }
+
+            emptyCart.classList.add('hidden');
+            cartItemsContainer.classList.remove('hidden');
+            cartSummary.classList.remove('hidden');
+
+            cartItemsContainer.innerHTML = '';
+
+            cart.forEach((item, index) => {
+                const optionsSummary = generateOptionsSummary(item.options);
+                
+                const itemHtml = `
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-medium text-gray-900">${item.productName}</h3>
+                            <button class="text-red-500 hover:text-red-700 transition-colors" onclick="removeItem(${index})">
+                                🗑️
+                            </button>
+                        </div>
+                        
+                        ${optionsSummary ? `<p class="text-sm text-gray-600 mb-2">${optionsSummary}</p>` : ''}
+                        ${item.customNote ? `<p class="text-sm text-gray-500 mb-2">備註：${item.customNote}</p>` : ''}
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <button class="w-8 h-8 border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors" onclick="changeItemQuantity(${index}, -1)">
+                                    <span class="text-sm">−</span>
+                                </button>
+                                <span class="font-medium">${item.quantity}</span>
+                                <button class="w-8 h-8 border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors" onclick="changeItemQuantity(${index}, 1)">
+                                    <span class="text-sm">+</span>
+                                </button>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm text-gray-500">$${item.unitPrice} × ${item.quantity}</div>
+                                <div class="font-semibold text-blue-600">$${item.lineTotal}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                cartItemsContainer.innerHTML += itemHtml;
+            });
+        }
+
+        function generateOptionsSummary(options) {
+            const summaryParts = [];
+            
+            Object.values(options || {}).forEach(option => {
+                if (option && option.value) {
+                    let optionText = option.value;
+                    
+                    // 轉換選項值為中文
+                    const translations = {
+                        'none': '不辣',
+                        'mild': '小辣',
+                        'medium': '中辣',
+                        'hot': '大辣',
+                        'normal': '正常',
+                        'extra': '加飯',
+                        'less': '少',
+                        'more': '多',
+                        'large': '大杯',
+                        'medium': '中杯',
+                        'half': '半糖',
+                        'no': '無糖'
+                    };
+                    
+                    optionText = translations[option.value] || option.value;
+                    
+                    if (option.price > 0) {
+                        optionText += ` (+$${option.price})`;
+                    }
+                    
+                    summaryParts.push(optionText);
+                }
+            });
+            
+            return summaryParts.join('、');
+        }
+
+        function changeItemQuantity(index, change) {
+            if (index >= 0 && index < cart.length) {
+                cart[index].quantity = Math.max(1, cart[index].quantity + change);
+                
+                // 重新計算該品項小計
+                const optionPrice = Object.values(cart[index].options || {})
+                    .reduce((sum, option) => sum + (option?.price || 0), 0);
+                cart[index].lineTotal = (cart[index].unitPrice + optionPrice) * cart[index].quantity;
+                
+                sessionStorage.setItem('cart', JSON.stringify(cart));
+                renderCart();
+                updateSummary();
+            }
+        }
+
+        function removeItem(index) {
+            if (index >= 0 && index < cart.length) {
+                cart.splice(index, 1);
+                sessionStorage.setItem('cart', JSON.stringify(cart));
+                renderCart();
+                updateSummary();
+            }
+        }
+
+        function updateSummary() {
+            subtotal = cart.reduce((sum, item) => sum + item.lineTotal, 0);
+            grandTotal = subtotal - discountTotal;
+
+            document.getElementById('subtotal').textContent = `$${subtotal}`;
+            document.getElementById('discount').textContent = discountTotal > 0 ? `-$${discountTotal}` : '$0';
+            document.getElementById('grandTotal').textContent = `$${grandTotal}`;
+
+            // 更新結帳按鈕狀態
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            if (cart.length === 0) {
+                checkoutBtn.disabled = true;
+                checkoutBtn.classList.add('bg-gray-300', 'cursor-not-allowed');
+                checkoutBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            } else {
+                checkoutBtn.disabled = false;
+                checkoutBtn.classList.remove('bg-gray-300', 'cursor-not-allowed');
+                checkoutBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            }
+        }
+
+        function applyPromoCode() {
+            const promoCodeInput = document.getElementById('promoCode');
+            const code = promoCodeInput.value.trim().toUpperCase();
+            
+            // 簡單的優惠碼示例
+            if (code === 'WELCOME10') {
+                discountTotal = Math.floor(subtotal * 0.1);
+                alert('優惠碼套用成功！享有 10% 折扣');
+                promoCodeInput.value = '';
+            } else if (code === 'FIRST50') {
+                discountTotal = Math.min(50, subtotal);
+                alert('優惠碼套用成功！享有 $50 折扣');
+                promoCodeInput.value = '';
+            } else if (code) {
+                alert('優惠碼無效，請檢查後重新輸入');
+            }
+            
+            updateSummary();
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) return;
+            
+            // 儲存訂單摘要
+            const orderSummary = {
+                items: cart,
+                subtotal: subtotal,
+                discountTotal: discountTotal,
+                grandTotal: grandTotal
+            };
+            sessionStorage.setItem('orderSummary', JSON.stringify(orderSummary));
+            
+            window.location.href = 'addons.html';
+        }
+
+        function goBack() {
+            window.location.href = 'product.html';
+        }
+
+        function goToMenu() {
+            window.location.href = 'menu.html';
+        }
+
+        function goToStoreSelect() {
+            window.location.href = 'store-select.html';
+        }
+    </script>
+</body>
+</html>

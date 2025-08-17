@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>付款 - 點餐系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    maxWidth: {
+                        'mobile': '480px'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 主容器 -->
+    <div class="mx-auto max-w-mobile min-h-screen bg-white shadow-lg">
+        <!-- 標題列 -->
+        <header class="bg-blue-600 text-white p-4">
+            <h1 class="text-lg font-semibold">付款</h1>
+            <div class="text-sm mt-1 opacity-90">步驟 8/9 · 台北信義店 · 外帶</div>
+        </header>
+
+        <!-- 進度條 -->
+        <div class="bg-gray-200 h-2">
+            <div class="bg-blue-600 h-2 transition-all duration-300" style="width: 88.8%"></div>
+        </div>
+
+        <!-- 內容區 -->
+        <main class="pb-20">
+            <!-- 應付金額 -->
+            <div class="p-4 border-b border-gray-200">
+                <div class="text-center py-6">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-2">應付金額</h2>
+                    <div class="text-4xl font-bold text-blue-600" id="payableAmount">$200</div>
+                    <p class="text-sm text-gray-500 mt-2">新台幣</p>
+                </div>
+            </div>
+
+            <!-- 付款方式選擇 -->
+            <div class="p-4">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">選擇付款方式 <span class="text-red-500">*</span></h2>
+                
+                <div class="space-y-3">
+                    <!-- 現金付款 -->
+                    <label class="block">
+                        <input type="radio" name="paymentMethod" value="CASH" class="sr-only" onchange="selectPaymentMethod('CASH')">
+                        <div class="border-2 border-blue-500 bg-blue-50 rounded-lg p-4 cursor-pointer hover:border-blue-600 transition-all" id="payment-CASH">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-6 h-6 border-2 border-blue-600 rounded-full mr-3 flex items-center justify-center">
+                                        <div class="w-3 h-3 bg-blue-600 rounded-full"></div>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-900">現金付款</h3>
+                                        <p class="text-sm text-gray-600">取餐時現場付款</p>
+                                    </div>
+                                </div>
+                                <div class="text-3xl">💵</div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 信用卡付款 -->
+                    <label class="block">
+                        <input type="radio" name="paymentMethod" value="CARD" class="sr-only" onchange="selectPaymentMethod('CARD')">
+                        <div class="border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" id="payment-CARD">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                        <div class="w-3 h-3 bg-blue-600 rounded-full hidden"></div>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-900">信用卡付款</h3>
+                                        <p class="text-sm text-gray-600">線上安全付款</p>
+                                    </div>
+                                </div>
+                                <div class="text-3xl">💳</div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 電子錢包 -->
+                    <label class="block">
+                        <input type="radio" name="paymentMethod" value="E_WALLET" class="sr-only" onchange="selectPaymentMethod('E_WALLET')">
+                        <div class="border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" id="payment-E_WALLET">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                        <div class="w-3 h-3 bg-blue-600 rounded-full hidden"></div>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-900">電子錢包</h3>
+                                        <p class="text-sm text-gray-600">LINE Pay / 街口支付</p>
+                                    </div>
+                                </div>
+                                <div class="text-3xl">📱</div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 支付提供商選擇 -->
+            <div class="px-4 pb-4 hidden" id="paymentProviderSection">
+                <h3 class="text-lg font-medium text-gray-900 mb-3">選擇支付服務</h3>
+                <div class="grid grid-cols-2 gap-3" id="providerOptions">
+                    <!-- 動態產生 -->
+                </div>
+            </div>
+
+            <!-- 現金付款說明 -->
+            <div class="px-4 pb-4" id="cashPaymentInfo">
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <div class="flex">
+                        <div class="text-yellow-600 mr-2">ℹ️</div>
+                        <div>
+                            <h3 class="font-medium text-yellow-800">現金付款說明</h3>
+                            <p class="text-sm text-yellow-700 mt-1">請於取餐時準備現金，建議準備零錢以加快取餐速度</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 付款安全說明 -->
+            <div class="px-4 pb-4 hidden" id="onlinePaymentInfo">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div class="flex">
+                        <div class="text-green-600 mr-2">🔒</div>
+                        <div>
+                            <h3 class="font-medium text-green-800">安全付款保障</h3>
+                            <p class="text-sm text-green-700 mt-1">採用 SSL 加密技術保護您的付款資訊，交易安全有保障</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 訂單摘要 -->
+            <div class="px-4 pb-4">
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">訂單摘要</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">取貨門市</span>
+                            <span class="font-medium">台北信義店</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">取餐時間</span>
+                            <span class="font-medium" id="pickupTime">立即取餐</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">用餐方式</span>
+                            <span class="font-medium">外帶</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">餐點小計</span>
+                            <span class="font-medium" id="itemsSubtotal">$200</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">包裝費</span>
+                            <span class="font-medium" id="packagingFee">$0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">折扣</span>
+                            <span class="font-medium text-green-600" id="discount">-$0</span>
+                        </div>
+                        <div class="border-t border-gray-300 pt-2 mt-2">
+                            <div class="flex justify-between">
+                                <span class="text-lg font-semibold text-gray-900">應付總額</span>
+                                <span class="text-lg font-bold text-blue-600" id="grandTotal">$200</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部導覽 -->
+        <footer class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-mobile bg-white border-t border-gray-200 p-4">
+            <div class="flex gap-3">
+                <button class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors" onclick="goBack()">
+                    返回
+                </button>
+                <button class="flex-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" onclick="processPayment()">
+                    <span id="paymentButtonText">確認付款</span>
+                </button>
+                <button class="px-4 py-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors" onclick="goToStoreSelect()">
+                    🏠
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let selectedPaymentMethod = 'CASH';
+        let selectedProvider = null;
+        let orderSummary = {};
+        let pickupInfo = {};
+
+        // 初始化頁面
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderData();
+            updateOrderSummary();
+            updatePaymentButton();
+        });
+
+        function loadOrderData() {
+            orderSummary = JSON.parse(sessionStorage.getItem('orderSummary') || '{"grandTotal":200}');
+            pickupInfo = JSON.parse(sessionStorage.getItem('pickupInfo') || '{}');
+        }
+
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            selectedProvider = null;
+
+            // 重置所有付款方式樣式
+            document.querySelectorAll('[id^="payment-"]').forEach(option => {
+                option.classList.remove('border-blue-500', 'bg-blue-50');
+                option.classList.add('border-gray-200');
+                
+                const radio = option.querySelector('.w-6 > div');
+                const radioContainer = option.querySelector('.w-6');
+                radio.classList.add('hidden');
+                radioContainer.classList.remove('border-blue-600');
+                radioContainer.classList.add('border-gray-300');
+            });
+
+            // 設定選中樣式
+            const selectedOption = document.getElementById(`payment-${method}`);
+            selectedOption.classList.remove('border-gray-200');
+            selectedOption.classList.add('border-blue-500', 'bg-blue-50');
+            
+            const selectedRadio = selectedOption.querySelector('.w-6 > div');
+            const selectedRadioContainer = selectedOption.querySelector('.w-6');
+            selectedRadio.classList.remove('hidden');
+            selectedRadioContainer.classList.remove('border-gray-300');
+            selectedRadioContainer.classList.add('border-blue-600');
+
+            // 顯示/隱藏相關區塊
+            updatePaymentSections(method);
+            updatePaymentButton();
+        }
+
+        function updatePaymentSections(method) {
+            const providerSection = document.getElementById('paymentProviderSection');
+            const cashInfo = document.getElementById('cashPaymentInfo');
+            const onlineInfo = document.getElementById('onlinePaymentInfo');
+
+            // 隱藏所有區塊
+            providerSection.classList.add('hidden');
+            cashInfo.classList.add('hidden');
+            onlineInfo.classList.add('hidden');
+
+            if (method === 'CASH') {
+                cashInfo.classList.remove('hidden');
+            } else if (method === 'CARD') {
+                onlineInfo.classList.remove('hidden');
+                providerSection.classList.remove('hidden');
+                showCardProviders();
+            } else if (method === 'E_WALLET') {
+                onlineInfo.classList.remove('hidden');
+                providerSection.classList.remove('hidden');
+                showEWalletProviders();
+            }
+        }
+
+        function showCardProviders() {
+            const providerOptions = document.getElementById('providerOptions');
+            providerOptions.innerHTML = `
+                <button class="p-4 border border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-center" onclick="selectProvider('Visa')">
+                    <div class="text-2xl mb-2">💳</div>
+                    <div class="text-sm font-medium">Visa</div>
+                </button>
+                <button class="p-4 border border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-center" onclick="selectProvider('MasterCard')">
+                    <div class="text-2xl mb-2">💳</div>
+                    <div class="text-sm font-medium">MasterCard</div>
+                </button>
+                <button class="p-4 border border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-center" onclick="selectProvider('JCB')">
+                    <div class="text-2xl mb-2">💳</div>
+                    <div class="text-sm font-medium">JCB</div>
+                </button>
+                <button class="p-4 border border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-center" onclick="selectProvider('UnionPay')">
+                    <div class="text-2xl mb-2">💳</div>
+                    <div class="text-sm font-medium">銀聯卡</div>
+                </button>
+            `;
+        }
+
+        function showEWalletProviders() {
+            const providerOptions = document.getElementById('providerOptions');
+            providerOptions.innerHTML = `
+                <button class="p-4 border border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-center" onclick="selectProvider('LinePay')">
+                    <div class="text-2xl mb-2">💚</div>
+                    <div class="text-sm font-medium">LINE Pay</div>
+                </button>
+                <button class="p-4 border border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-center" onclick="selectProvider('JKOPay')">
+                    <div class="text-2xl mb-2">🟡</div>
+                    <div class="text-sm font-medium">街口支付</div>
+                </button>
+                <button class="p-4 border border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-center" onclick="selectProvider('ApplePay')">
+                    <div class="text-2xl mb-2">🍎</div>
+                    <div class="text-sm font-medium">Apple Pay</div>
+                </button>
+                <button class="p-4 border border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-center" onclick="selectProvider('GooglePay')">
+                    <div class="text-2xl mb-2">🎨</div>
+                    <div class="text-sm font-medium">Google Pay</div>
+                </button>
+            `;
+        }
+
+        function selectProvider(provider) {
+            selectedProvider = provider;
+            
+            // 重置所有提供商按鈕樣式
+            document.querySelectorAll('#providerOptions button').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'bg-blue-50');
+                btn.classList.add('border-gray-300');
+            });
+
+            // 設定選中樣式
+            event.target.classList.remove('border-gray-300');
+            event.target.classList.add('border-blue-500', 'bg-blue-50');
+
+            updatePaymentButton();
+        }
+
+        function updatePaymentButton() {
+            const buttonText = document.getElementById('paymentButtonText');
+            
+            if (selectedPaymentMethod === 'CASH') {
+                buttonText.textContent = '確認訂單';
+            } else if (selectedPaymentMethod === 'CARD' || selectedPaymentMethod === 'E_WALLET') {
+                if (selectedProvider) {
+                    buttonText.textContent = `使用 ${selectedProvider} 付款`;
+                } else {
+                    buttonText.textContent = '請選擇付款服務';
+                }
+            }
+        }
+
+        function updateOrderSummary() {
+            const total = orderSummary.grandTotal || 200;
+            const subtotal = orderSummary.subtotal || 200;
+            const packaging = orderSummary.packagingFee || 0;
+            const discount = orderSummary.discountTotal || 0;
+
+            document.getElementById('payableAmount').textContent = `$${total}`;
+            document.getElementById('itemsSubtotal').textContent = `$${subtotal}`;
+            document.getElementById('packagingFee').textContent = `$${packaging}`;
+            document.getElementById('discount').textContent = discount > 0 ? `-$${discount}` : '$0';
+            document.getElementById('grandTotal').textContent = `$${total}`;
+
+            // 更新取餐時間
+            if (pickupInfo.pickupType === 'now') {
+                document.getElementById('pickupTime').textContent = '立即取餐';
+            } else if (pickupInfo.pickupAt) {
+                const time = new Date(pickupInfo.pickupAt).toLocaleTimeString('zh-TW', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    hour12: false 
+                });
+                document.getElementById('pickupTime').textContent = `預約取餐 (${time})`;
+            }
+        }
+
+        function processPayment() {
+            // 驗證付款方式
+            if ((selectedPaymentMethod === 'CARD' || selectedPaymentMethod === 'E_WALLET') && !selectedProvider) {
+                alert('請選擇付款服務提供商');
+                return;
+            }
+
+            // 產生模擬訂單號
+            const orderNumber = 'ORD' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + 
+                               String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+            const pickupNumber = 'P' + String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+
+            // 儲存付款資訊
+            const paymentInfo = {
+                paymentMethod: selectedPaymentMethod,
+                paymentProvider: selectedProvider,
+                payableAmount: orderSummary.grandTotal || 200,
+                currency: 'TWD',
+                transactionId: selectedPaymentMethod !== 'CASH' ? 'TXN' + Date.now() : null,
+                paymentStatus: selectedPaymentMethod === 'CASH' ? 'PENDING' : 'PAID',
+                paidAt: selectedPaymentMethod === 'CASH' ? null : new Date().toISOString()
+            };
+
+            const finalOrder = {
+                orderNumber: orderNumber,
+                pickupNumber: pickupNumber,
+                orderStatus: 'RECEIVED',
+                createdAt: new Date().toISOString(),
+                eta: new Date(Date.now() + 15 * 60 * 1000).toISOString() // 15分鐘後
+            };
+
+            sessionStorage.setItem('paymentInfo', JSON.stringify(paymentInfo));
+            sessionStorage.setItem('finalOrder', JSON.stringify(finalOrder));
+
+            // 付款處理動畫
+            const button = event.target;
+            const originalText = button.textContent;
+            button.disabled = true;
+            button.textContent = '處理中...';
+            button.classList.add('bg-gray-400');
+            button.classList.remove('bg-blue-600');
+
+            setTimeout(() => {
+                window.location.href = 'order-tracking.html';
+            }, 2000);
+        }
+
+        function goBack() {
+            window.location.href = 'pickup.html';
+        }
+
+        function goToStoreSelect() {
+            window.location.href = 'store-select.html';
+        }
+    </script>
+</body>
+</html>

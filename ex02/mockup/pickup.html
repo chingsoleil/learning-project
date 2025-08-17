@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>取貨資訊 - 點餐系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    maxWidth: {
+                        'mobile': '480px'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 主容器 -->
+    <div class="mx-auto max-w-mobile min-h-screen bg-white shadow-lg">
+        <!-- 標題列 -->
+        <header class="bg-blue-600 text-white p-4">
+            <h1 class="text-lg font-semibold">取貨資訊</h1>
+            <div class="text-sm mt-1 opacity-90">步驟 7/9 · 台北信義店 · 外帶</div>
+        </header>
+
+        <!-- 進度條 -->
+        <div class="bg-gray-200 h-2">
+            <div class="bg-blue-600 h-2 transition-all duration-300" style="width: 77.7%"></div>
+        </div>
+
+        <!-- 內容區 -->
+        <main class="pb-20">
+            <!-- 取貨門市 -->
+            <div class="p-4 border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900 mb-3">取貨門市</h2>
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <div class="text-2xl mr-3">🏪</div>
+                        <div>
+                            <h3 class="font-medium text-gray-900">台北信義店</h3>
+                            <p class="text-sm text-gray-600 mt-1">信義路五段 7 號</p>
+                            <p class="text-sm text-gray-500">營業時間：10:00-22:00</p>
+                            <p class="text-sm text-green-600 font-medium mt-1">📞 02-2345-6789</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 取餐時間 -->
+            <div class="p-4 border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900 mb-3">取餐時間 <span class="text-red-500">*</span></h2>
+                <div class="space-y-3">
+                    <!-- 立即取餐 -->
+                    <label class="block">
+                        <input type="radio" name="pickupTime" value="now" class="sr-only" onchange="selectPickupTime('now')">
+                        <div class="border-2 border-blue-500 bg-blue-50 rounded-lg p-4 cursor-pointer hover:border-blue-600 transition-all" id="pickup-now">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 border-2 border-blue-600 rounded-full mr-3 flex items-center justify-center">
+                                    <div class="w-3 h-3 bg-blue-600 rounded-full"></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-900">立即取餐</h3>
+                                    <p class="text-sm text-gray-600">約 10-15 分鐘後可取</p>
+                                </div>
+                                <div class="ml-auto text-sm text-blue-600 font-medium" id="nowTime">14:25</div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 預約取餐 -->
+                    <label class="block">
+                        <input type="radio" name="pickupTime" value="scheduled" class="sr-only" onchange="selectPickupTime('scheduled')">
+                        <div class="border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" id="pickup-scheduled">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                    <div class="w-3 h-3 bg-blue-600 rounded-full hidden"></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-900">預約取餐</h3>
+                                    <p class="text-sm text-gray-600">選擇特定時間</p>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- 預約時間選擇 -->
+                <div class="mt-4 hidden" id="scheduleOptions">
+                    <div class="grid grid-cols-3 gap-2">
+                        <button class="p-3 border border-gray-300 rounded-lg text-sm hover:border-blue-500 hover:bg-blue-50 transition-colors" onclick="selectScheduledTime('15:00')">15:00</button>
+                        <button class="p-3 border border-gray-300 rounded-lg text-sm hover:border-blue-500 hover:bg-blue-50 transition-colors" onclick="selectScheduledTime('15:30')">15:30</button>
+                        <button class="p-3 border border-gray-300 rounded-lg text-sm hover:border-blue-500 hover:bg-blue-50 transition-colors" onclick="selectScheduledTime('16:00')">16:00</button>
+                        <button class="p-3 border border-gray-300 rounded-lg text-sm hover:border-blue-500 hover:bg-blue-50 transition-colors" onclick="selectScheduledTime('16:30')">16:30</button>
+                        <button class="p-3 border border-gray-300 rounded-lg text-sm hover:border-blue-500 hover:bg-blue-50 transition-colors" onclick="selectScheduledTime('17:00')">17:00</button>
+                        <button class="p-3 border border-gray-300 rounded-lg text-sm hover:border-blue-500 hover:bg-blue-50 transition-colors" onclick="selectScheduledTime('17:30')">17:30</button>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">* 預約時間僅供參考，實際取餐時間可能因製作狀況調整</p>
+                </div>
+            </div>
+
+            <!-- 發票資訊 -->
+            <div class="p-4 border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900 mb-3">發票資訊</h2>
+                
+                <!-- 發票類型 -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">發票類型</label>
+                    <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="invoiceType" onchange="toggleInvoiceFields()">
+                        <option value="personal">個人發票</option>
+                        <option value="company">公司發票</option>
+                        <option value="donate">捐贈發票</option>
+                    </select>
+                </div>
+
+                <!-- 統一編號 -->
+                <div class="mb-4 hidden" id="taxIdField">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">統一編號</label>
+                    <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="請輸入 8 位數統一編號" id="taxId" maxlength="8">
+                </div>
+
+                <!-- 手機載具 -->
+                <div class="mb-4" id="mobileCarrierField">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">手機載具（選填）</label>
+                    <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="/AB12345" id="mobileCarrier">
+                    <p class="text-xs text-gray-500 mt-1">請輸入手機條碼載具，例如：/AB12345</p>
+                </div>
+
+                <!-- 捐贈碼 -->
+                <div class="mb-4 hidden" id="donationCodeField">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">捐贈碼</label>
+                    <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="donationCode">
+                        <option value="">請選擇捐贈對象</option>
+                        <option value="001">財團法人創世社會福利基金會</option>
+                        <option value="002">財團法人伊甸社會福利基金會</option>
+                        <option value="003">財團法人喜憨兒社會福利基金會</option>
+                        <option value="004">財團法人家扶基金會</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 訂單備註 -->
+            <div class="p-4">
+                <h2 class="text-lg font-semibold text-gray-900 mb-3">訂單備註</h2>
+                <textarea class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" rows="3" placeholder="如有特殊需求請在此說明（選填）" id="orderNote"></textarea>
+            </div>
+
+            <!-- 訂單確認 -->
+            <div class="p-4">
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">訂單確認</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">取貨門市</span>
+                            <span class="font-medium">台北信義店</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">取餐時間</span>
+                            <span class="font-medium" id="selectedTime">立即取餐 (14:25)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">用餐方式</span>
+                            <span class="font-medium">外帶</span>
+                        </div>
+                        <div class="border-t border-gray-300 pt-2 mt-2">
+                            <div class="flex justify-between">
+                                <span class="text-lg font-semibold text-gray-900">應付總額</span>
+                                <span class="text-lg font-bold text-blue-600" id="finalTotal">$200</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部導覽 -->
+        <footer class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-mobile bg-white border-t border-gray-200 p-4">
+            <div class="flex gap-3">
+                <button class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors" onclick="goBack()">
+                    返回
+                </button>
+                <button class="flex-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" onclick="proceedToPayment()">
+                    確認送出
+                </button>
+                <button class="px-4 py-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors" onclick="goToStoreSelect()">
+                    🏠
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let selectedPickupType = 'now';
+        let selectedScheduledTime = '';
+        let orderSummary = {};
+
+        // 初始化頁面
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderSummary();
+            updateCurrentTime();
+            updateFinalTotal();
+        });
+
+        function loadOrderSummary() {
+            orderSummary = JSON.parse(sessionStorage.getItem('orderSummary') || '{"grandTotal":200}');
+        }
+
+        function updateCurrentTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('zh-TW', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: false 
+            });
+            document.getElementById('nowTime').textContent = timeString;
+        }
+
+        function selectPickupTime(type) {
+            selectedPickupType = type;
+
+            // 重置樣式
+            document.querySelectorAll('[id^="pickup-"]').forEach(option => {
+                option.classList.remove('border-blue-500', 'bg-blue-50');
+                option.classList.add('border-gray-200');
+                
+                const radio = option.querySelector('.w-6 > div');
+                const radioContainer = option.querySelector('.w-6');
+                radio.classList.add('hidden');
+                radioContainer.classList.remove('border-blue-600');
+                radioContainer.classList.add('border-gray-300');
+            });
+
+            // 設定選中樣式
+            const selectedOption = document.getElementById(`pickup-${type}`);
+            selectedOption.classList.remove('border-gray-200');
+            selectedOption.classList.add('border-blue-500', 'bg-blue-50');
+            
+            const selectedRadio = selectedOption.querySelector('.w-6 > div');
+            const selectedRadioContainer = selectedOption.querySelector('.w-6');
+            selectedRadio.classList.remove('hidden');
+            selectedRadioContainer.classList.remove('border-gray-300');
+            selectedRadioContainer.classList.add('border-blue-600');
+
+            // 顯示/隱藏預約時間選項
+            const scheduleOptions = document.getElementById('scheduleOptions');
+            if (type === 'scheduled') {
+                scheduleOptions.classList.remove('hidden');
+            } else {
+                scheduleOptions.classList.add('hidden');
+                selectedScheduledTime = '';
+            }
+
+            updateSelectedTime();
+        }
+
+        function selectScheduledTime(time) {
+            selectedScheduledTime = time;
+            
+            // 重置所有時間按鈕樣式
+            document.querySelectorAll('#scheduleOptions button').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-600');
+                btn.classList.add('border-gray-300');
+            });
+
+            // 設定選中的時間按鈕樣式
+            event.target.classList.remove('border-gray-300');
+            event.target.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-600');
+
+            updateSelectedTime();
+        }
+
+        function updateSelectedTime() {
+            const selectedTimeElement = document.getElementById('selectedTime');
+            if (selectedPickupType === 'now') {
+                const currentTime = document.getElementById('nowTime').textContent;
+                selectedTimeElement.textContent = `立即取餐 (${currentTime})`;
+            } else if (selectedPickupType === 'scheduled' && selectedScheduledTime) {
+                selectedTimeElement.textContent = `預約取餐 (${selectedScheduledTime})`;
+            } else if (selectedPickupType === 'scheduled') {
+                selectedTimeElement.textContent = '預約取餐 (請選擇時間)';
+            }
+        }
+
+        function toggleInvoiceFields() {
+            const invoiceType = document.getElementById('invoiceType').value;
+            const taxIdField = document.getElementById('taxIdField');
+            const mobileCarrierField = document.getElementById('mobileCarrierField');
+            const donationCodeField = document.getElementById('donationCodeField');
+
+            // 隱藏所有欄位
+            taxIdField.classList.add('hidden');
+            mobileCarrierField.classList.add('hidden');
+            donationCodeField.classList.add('hidden');
+
+            // 根據發票類型顯示相應欄位
+            if (invoiceType === 'personal') {
+                mobileCarrierField.classList.remove('hidden');
+            } else if (invoiceType === 'company') {
+                taxIdField.classList.remove('hidden');
+                mobileCarrierField.classList.remove('hidden');
+            } else if (invoiceType === 'donate') {
+                donationCodeField.classList.remove('hidden');
+            }
+        }
+
+        function updateFinalTotal() {
+            const total = orderSummary.grandTotal || 200;
+            document.getElementById('finalTotal').textContent = `$${total}`;
+        }
+
+        function proceedToPayment() {
+            // 驗證必填欄位
+            if (selectedPickupType === 'scheduled' && !selectedScheduledTime) {
+                alert('請選擇預約取餐時間');
+                return;
+            }
+
+            const invoiceType = document.getElementById('invoiceType').value;
+            if (invoiceType === 'company') {
+                const taxId = document.getElementById('taxId').value.trim();
+                if (!taxId || taxId.length !== 8) {
+                    alert('請輸入正確的 8 位數統一編號');
+                    return;
+                }
+            }
+
+            if (invoiceType === 'donate') {
+                const donationCode = document.getElementById('donationCode').value;
+                if (!donationCode) {
+                    alert('請選擇捐贈對象');
+                    return;
+                }
+            }
+
+            // 儲存取貨資訊
+            const pickupInfo = {
+                pickupStoreId: '1',
+                pickupStoreName: '台北信義店',
+                pickupType: selectedPickupType,
+                pickupAt: selectedPickupType === 'now' ? new Date().toISOString() : 
+                         selectedPickupType === 'scheduled' ? `2024-01-01T${selectedScheduledTime}:00.000Z` : null,
+                invoiceType: invoiceType,
+                taxId: document.getElementById('taxId').value.trim() || null,
+                mobileCarrier: document.getElementById('mobileCarrier').value.trim() || null,
+                donationCode: document.getElementById('donationCode').value || null,
+                orderNote: document.getElementById('orderNote').value.trim() || null
+            };
+
+            sessionStorage.setItem('pickupInfo', JSON.stringify(pickupInfo));
+
+            window.location.href = 'payment.html';
+        }
+
+        function goBack() {
+            window.location.href = 'addons.html';
+        }
+
+        function goToStoreSelect() {
+            window.location.href = 'store-select.html';
+        }
+
+        // 每分鐘更新一次時間
+        setInterval(updateCurrentTime, 60000);
+    </script>
+</body>
+</html>

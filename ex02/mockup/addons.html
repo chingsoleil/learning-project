@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加購與包裝 - 點餐系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    maxWidth: {
+                        'mobile': '480px'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 主容器 -->
+    <div class="mx-auto max-w-mobile min-h-screen bg-white shadow-lg">
+        <!-- 標題列 -->
+        <header class="bg-blue-600 text-white p-4">
+            <h1 class="text-lg font-semibold">加購與包裝</h1>
+            <div class="text-sm mt-1 opacity-90">步驟 6/9 · 台北信義店 · 外帶</div>
+        </header>
+
+        <!-- 進度條 -->
+        <div class="bg-gray-200 h-2">
+            <div class="bg-blue-600 h-2 transition-all duration-300" style="width: 66.6%"></div>
+        </div>
+
+        <!-- 內容區 -->
+        <main class="pb-20">
+            <!-- 包裝選擇 -->
+            <div class="p-4">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">包裝選擇</h2>
+                <p class="text-sm text-gray-600 mb-4">外帶建議選擇適當包裝，確保餐點完整送達</p>
+                
+                <div class="space-y-3">
+                    <!-- 無包裝 -->
+                    <label class="block">
+                        <input type="radio" name="packaging" value="NONE" class="sr-only" onchange="selectPackaging('NONE', 0)">
+                        <div class="border-2 border-blue-500 bg-blue-50 rounded-lg p-4 cursor-pointer hover:border-blue-600 transition-all" id="packaging-NONE">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-6 h-6 border-2 border-blue-600 rounded-full mr-3 flex items-center justify-center">
+                                        <div class="w-3 h-3 bg-blue-600 rounded-full"></div>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-900">無包裝</h3>
+                                        <p class="text-sm text-gray-600">環保選擇，現場享用</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-lg font-semibold text-green-600">免費</div>
+                                    <div class="text-2xl">🌱</div>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 餐具 -->
+                    <label class="block">
+                        <input type="radio" name="packaging" value="CUTLERY" class="sr-only" onchange="selectPackaging('CUTLERY', 5)">
+                        <div class="border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" id="packaging-CUTLERY">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                        <div class="w-3 h-3 bg-blue-600 rounded-full hidden"></div>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-900">餐具組</h3>
+                                        <p class="text-sm text-gray-600">環保餐具、濕紙巾</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-lg font-semibold text-blue-600">+$5</div>
+                                    <div class="text-2xl">🍴</div>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 小提袋 -->
+                    <label class="block">
+                        <input type="radio" name="packaging" value="BAG_SMALL" class="sr-only" onchange="selectPackaging('BAG_SMALL', 8)">
+                        <div class="border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" id="packaging-BAG_SMALL">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                        <div class="w-3 h-3 bg-blue-600 rounded-full hidden"></div>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-900">小提袋</h3>
+                                        <p class="text-sm text-gray-600">適合 1-2 個餐盒</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-lg font-semibold text-blue-600">+$8</div>
+                                    <div class="text-2xl">🛍️</div>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 中提袋 -->
+                    <label class="block">
+                        <input type="radio" name="packaging" value="BAG_MEDIUM" class="sr-only" onchange="selectPackaging('BAG_MEDIUM', 12)">
+                        <div class="border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" id="packaging-BAG_MEDIUM">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                        <div class="w-3 h-3 bg-blue-600 rounded-full hidden"></div>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-900">中提袋</h3>
+                                        <p class="text-sm text-gray-600">適合 3-4 個餐盒</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-lg font-semibold text-blue-600">+$12</div>
+                                    <div class="text-2xl">🛍️</div>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 大提袋 -->
+                    <label class="block">
+                        <input type="radio" name="packaging" value="BAG_LARGE" class="sr-only" onchange="selectPackaging('BAG_LARGE', 18)">
+                        <div class="border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" id="packaging-BAG_LARGE">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                        <div class="w-3 h-3 bg-blue-600 rounded-full hidden"></div>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-900">大提袋</h3>
+                                        <p class="text-sm text-gray-600">適合 5 個以上餐盒</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-lg font-semibold text-blue-600">+$18</div>
+                                    <div class="text-2xl">🛍️</div>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 推薦加購 -->
+            <div class="px-4 pb-4">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">推薦加購</h2>
+                <div class="grid gap-3">
+                    <!-- 薯條 -->
+                    <div class="border border-gray-200 rounded-lg p-3 flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/60x60/e5e7eb/6b7280?text=薯條" alt="薯條" class="w-12 h-12 rounded-lg object-cover mr-3">
+                            <div>
+                                <h3 class="font-medium text-gray-900">薯條</h3>
+                                <p class="text-sm text-gray-600">金黃酥脆</p>
+                                <p class="text-sm font-semibold text-blue-600">$40</p>
+                            </div>
+                        </div>
+                        <button class="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors text-sm" onclick="addToCart('21', '薯條', 40)">
+                            加購
+                        </button>
+                    </div>
+
+                    <!-- 雞翅 -->
+                    <div class="border border-gray-200 rounded-lg p-3 flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/60x60/e5e7eb/6b7280?text=雞翅" alt="雞翅" class="w-12 h-12 rounded-lg object-cover mr-3">
+                            <div>
+                                <h3 class="font-medium text-gray-900">雞翅</h3>
+                                <p class="text-sm text-gray-600">香嫩多汁</p>
+                                <p class="text-sm font-semibold text-blue-600">$55</p>
+                            </div>
+                        </div>
+                        <button class="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors text-sm" onclick="addToCart('22', '雞翅', 55)">
+                            加購
+                        </button>
+                    </div>
+
+                    <!-- 熱湯 -->
+                    <div class="border border-gray-200 rounded-lg p-3 flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/60x60/e5e7eb/6b7280?text=湯" alt="熱湯" class="w-12 h-12 rounded-lg object-cover mr-3">
+                            <div>
+                                <h3 class="font-medium text-gray-900">熱湯</h3>
+                                <p class="text-sm text-gray-600">暖胃好選擇</p>
+                                <p class="text-sm font-semibold text-blue-600">$30</p>
+                            </div>
+                        </div>
+                        <button class="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors text-sm" onclick="addToCart('23', '熱湯', 30)">
+                            加購
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 訂單摘要 -->
+            <div class="px-4 pb-4">
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">訂單摘要</h3>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">餐點小計</span>
+                            <span class="font-medium" id="itemsSubtotal">$200</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">包裝費</span>
+                            <span class="font-medium" id="packagingFee">$0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">折扣</span>
+                            <span class="font-medium text-green-600" id="discount">-$0</span>
+                        </div>
+                        <div class="border-t border-gray-300 pt-2 mt-2">
+                            <div class="flex justify-between">
+                                <span class="text-lg font-semibold text-gray-900">應付總額</span>
+                                <span class="text-lg font-bold text-blue-600" id="totalAmount">$200</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部導覽 -->
+        <footer class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-mobile bg-white border-t border-gray-200 p-4">
+            <div class="flex gap-3">
+                <button class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors" onclick="goBack()">
+                    返回
+                </button>
+                <button class="flex-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" onclick="proceedToPickup()">
+                    下一步
+                </button>
+                <button class="px-4 py-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors" onclick="goToStoreSelect()">
+                    🏠
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let selectedPackaging = 'NONE';
+        let packagingFee = 0;
+        let orderSummary = {};
+
+        // 初始化頁面
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderSummary();
+            updateSummary();
+        });
+
+        function loadOrderSummary() {
+            orderSummary = JSON.parse(sessionStorage.getItem('orderSummary') || '{"subtotal":200,"discountTotal":0,"grandTotal":200}');
+        }
+
+        function selectPackaging(type, fee) {
+            selectedPackaging = type;
+            packagingFee = fee;
+
+            // 重置所有包裝選項樣式
+            document.querySelectorAll('[id^="packaging-"]').forEach(option => {
+                option.classList.remove('border-blue-500', 'bg-blue-50');
+                option.classList.add('border-gray-200');
+                
+                const radio = option.querySelector('.w-6 > div');
+                const radioContainer = option.querySelector('.w-6');
+                radio.classList.add('hidden');
+                radioContainer.classList.remove('border-blue-600');
+                radioContainer.classList.add('border-gray-300');
+            });
+
+            // 設定選中的包裝樣式
+            const selectedOption = document.getElementById(`packaging-${type}`);
+            selectedOption.classList.remove('border-gray-200');
+            selectedOption.classList.add('border-blue-500', 'bg-blue-50');
+            
+            const selectedRadio = selectedOption.querySelector('.w-6 > div');
+            const selectedRadioContainer = selectedOption.querySelector('.w-6');
+            selectedRadio.classList.remove('hidden');
+            selectedRadioContainer.classList.remove('border-gray-300');
+            selectedRadioContainer.classList.add('border-blue-600');
+
+            updateSummary();
+        }
+
+        function addToCart(productId, productName, price) {
+            // 簡單的加購功能
+            const cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+            cart.push({
+                productId: productId,
+                productName: productName,
+                unitPrice: price,
+                quantity: 1,
+                options: {},
+                customNote: '',
+                lineTotal: price
+            });
+            sessionStorage.setItem('cart', JSON.stringify(cart));
+
+            // 更新訂單摘要
+            orderSummary.subtotal += price;
+            orderSummary.grandTotal = orderSummary.subtotal - orderSummary.discountTotal + packagingFee;
+            sessionStorage.setItem('orderSummary', JSON.stringify(orderSummary));
+
+            updateSummary();
+
+            // 視覺回饋
+            event.target.textContent = '已加購';
+            event.target.disabled = true;
+            event.target.classList.add('bg-green-100', 'text-green-700', 'border-green-300');
+            
+            setTimeout(() => {
+                event.target.textContent = '加購';
+                event.target.disabled = false;
+                event.target.classList.remove('bg-green-100', 'text-green-700', 'border-green-300');
+            }, 1500);
+        }
+
+        function updateSummary() {
+            const itemsSubtotal = orderSummary.subtotal || 200;
+            const discount = orderSummary.discountTotal || 0;
+            const total = itemsSubtotal - discount + packagingFee;
+
+            document.getElementById('itemsSubtotal').textContent = `$${itemsSubtotal}`;
+            document.getElementById('packagingFee').textContent = `$${packagingFee}`;
+            document.getElementById('discount').textContent = discount > 0 ? `-$${discount}` : '$0';
+            document.getElementById('totalAmount').textContent = `$${total}`;
+        }
+
+        function proceedToPickup() {
+            // 儲存包裝選擇
+            const packagingInfo = {
+                packagingOption: selectedPackaging,
+                packagingFee: packagingFee
+            };
+            sessionStorage.setItem('packagingInfo', JSON.stringify(packagingInfo));
+
+            // 更新訂單摘要
+            orderSummary.packagingFee = packagingFee;
+            orderSummary.grandTotal = orderSummary.subtotal - orderSummary.discountTotal + packagingFee;
+            sessionStorage.setItem('orderSummary', JSON.stringify(orderSummary));
+
+            window.location.href = 'pickup.html';
+        }
+
+        function goBack() {
+            window.location.href = 'cart.html';
+        }
+
+        function goToStoreSelect() {
+            window.location.href = 'store-select.html';
+        }
+    </script>
+</body>
+</html>

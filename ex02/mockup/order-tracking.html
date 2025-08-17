@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>取餐進度 - 點餐系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    maxWidth: {
+                        'mobile': '480px'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 主容器 -->
+    <div class="mx-auto max-w-mobile min-h-screen bg-white shadow-lg">
+        <!-- 標題列 -->
+        <header class="bg-green-600 text-white p-4">
+            <h1 class="text-lg font-semibold">取餐進度</h1>
+            <div class="text-sm mt-1 opacity-90">步驟 9/9 · 台北信義店 · 外帶 · 訂單完成</div>
+        </header>
+
+        <!-- 進度條 -->
+        <div class="bg-gray-200 h-2">
+            <div class="bg-green-600 h-2 transition-all duration-300" style="width: 100%"></div>
+        </div>
+
+        <!-- 內容區 -->
+        <main class="pb-20">
+            <!-- 訂單成功提示 -->
+            <div class="p-4 text-center">
+                <div class="text-6xl mb-4">✅</div>
+                <h2 class="text-2xl font-semibold text-gray-900 mb-2">訂單已確認！</h2>
+                <p class="text-gray-600">感謝您的訂購，我們正在為您準備餐點</p>
+            </div>
+
+            <!-- 取餐資訊 -->
+            <div class="px-4 pb-4">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-lg font-semibold text-gray-900">取餐資訊</h3>
+                        <span class="text-sm text-gray-500" id="lastUpdated">剛剛更新</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <span class="text-gray-600">訂單號碼</span>
+                            <div class="font-mono text-lg font-semibold text-blue-600" id="orderNumber">ORD20240101001</div>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">取餐號碼</span>
+                            <div class="font-mono text-lg font-semibold text-orange-600" id="pickupNumber">P0001</div>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">取餐門市</span>
+                            <div class="font-medium">台北信義店</div>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">預估時間</span>
+                            <div class="font-medium text-green-600" id="estimatedTime">15 分鐘</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 訂單狀態 -->
+            <div class="px-4 pb-4">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">製作進度</h3>
+                
+                <div class="space-y-4" id="statusTimeline">
+                    <!-- 已接單 -->
+                    <div class="flex items-start" id="status-RECEIVED">
+                        <div class="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center mr-4 mt-1">
+                            <span class="text-white text-sm">✓</span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">已接單</h4>
+                            <p class="text-sm text-gray-600">您的訂單已確認，開始準備製作</p>
+                            <p class="text-xs text-gray-500" id="receivedTime">14:20</p>
+                        </div>
+                    </div>
+
+                    <!-- 製作中 -->
+                    <div class="flex items-start" id="status-PREPARING">
+                        <div class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center mr-4 mt-1">
+                            <span class="text-white text-sm">⏳</span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">製作中</h4>
+                            <p class="text-sm text-gray-600">廚房正在用心為您準備餐點</p>
+                            <p class="text-xs text-gray-500" id="preparingTime">14:22</p>
+                        </div>
+                    </div>
+
+                    <!-- 準備完成 -->
+                    <div class="flex items-start opacity-50" id="status-READY">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mr-4 mt-1">
+                            <span class="text-gray-400 text-sm">🔔</span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-400">準備完成</h4>
+                            <p class="text-sm text-gray-400">餐點已完成，等待您來取餐</p>
+                            <p class="text-xs text-gray-400" id="readyTime">預估 14:35</p>
+                        </div>
+                    </div>
+
+                    <!-- 已取餐 -->
+                    <div class="flex items-start opacity-50" id="status-PICKED_UP">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mr-4 mt-1">
+                            <span class="text-gray-400 text-sm">👋</span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-400">已取餐</h4>
+                            <p class="text-sm text-gray-400">感謝您的光臨，祝您用餐愉快</p>
+                            <p class="text-xs text-gray-400" id="pickedUpTime">--:--</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 取餐提醒 -->
+            <div class="px-4 pb-4">
+                <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                    <div class="flex">
+                        <div class="text-orange-600 mr-2">📢</div>
+                        <div>
+                            <h3 class="font-medium text-orange-800">取餐提醒</h3>
+                            <ul class="text-sm text-orange-700 mt-1 space-y-1">
+                                <li>• 請在餐點準備完成後 30 分鐘內取餐</li>
+                                <li>• 取餐時請出示取餐號碼：<span class="font-mono font-semibold" id="pickupNumberReminder">P0001</span></li>
+                                <li>• 如有疑問請洽櫃檯：02-2345-6789</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 付款資訊 -->
+            <div class="px-4 pb-4" id="paymentInfo">
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">付款資訊</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">付款方式</span>
+                            <span class="font-medium" id="paymentMethod">現金付款</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">付款狀態</span>
+                            <span class="font-medium" id="paymentStatus">取餐時付款</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">應付金額</span>
+                            <span class="font-semibold text-blue-600" id="totalAmount">$200</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 門市資訊 -->
+            <div class="px-4 pb-4">
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">門市資訊</h3>
+                    <div class="text-sm space-y-1">
+                        <div><strong>台北信義店</strong></div>
+                        <div class="text-gray-600">📍 信義路五段 7 號</div>
+                        <div class="text-gray-600">🕒 營業時間：10:00-22:00</div>
+                        <div class="text-gray-600">📞 02-2345-6789</div>
+                    </div>
+                    <button class="mt-3 w-full py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors text-sm" onclick="openMap()">
+                        📍 查看地圖
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部導覽 -->
+        <footer class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-mobile bg-white border-t border-gray-200 p-4">
+            <div class="flex gap-3">
+                <button class="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" onclick="refreshStatus()">
+                    🔄 重新整理
+                </button>
+                <button class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors" onclick="newOrder()">
+                    🛒 再次點餐
+                </button>
+                <button class="px-4 py-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors" onclick="goToStoreSelect()">
+                    🏠
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let currentStatus = 'PREPARING';
+        let orderData = {};
+        let paymentData = {};
+
+        // 初始化頁面
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderData();
+            updateOrderInfo();
+            startStatusSimulation();
+        });
+
+        function loadOrderData() {
+            orderData = JSON.parse(sessionStorage.getItem('finalOrder') || '{}');
+            paymentData = JSON.parse(sessionStorage.getItem('paymentInfo') || '{}');
+            
+            // 如果沒有訂單資料，使用示例資料
+            if (!orderData.orderNumber) {
+                orderData = {
+                    orderNumber: 'ORD20240101001',
+                    pickupNumber: 'P0001',
+                    orderStatus: 'PREPARING',
+                    createdAt: new Date().toISOString(),
+                    eta: new Date(Date.now() + 13 * 60 * 1000).toISOString()
+                };
+            }
+            
+            if (!paymentData.paymentMethod) {
+                paymentData = {
+                    paymentMethod: 'CASH',
+                    paymentStatus: 'PENDING',
+                    payableAmount: 200
+                };
+            }
+        }
+
+        function updateOrderInfo() {
+            // 更新訂單資訊
+            document.getElementById('orderNumber').textContent = orderData.orderNumber;
+            document.getElementById('pickupNumber').textContent = orderData.pickupNumber;
+            document.getElementById('pickupNumberReminder').textContent = orderData.pickupNumber;
+
+            // 更新時間
+            const createdTime = new Date(orderData.createdAt);
+            const etaTime = new Date(orderData.eta);
+            const timeDiff = Math.max(0, Math.ceil((etaTime - new Date()) / 60000));
+            
+            document.getElementById('estimatedTime').textContent = timeDiff > 0 ? `${timeDiff} 分鐘` : '即將完成';
+            document.getElementById('receivedTime').textContent = createdTime.toLocaleTimeString('zh-TW', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: false 
+            });
+
+            const preparingTime = new Date(createdTime.getTime() + 2 * 60 * 1000);
+            document.getElementById('preparingTime').textContent = preparingTime.toLocaleTimeString('zh-TW', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: false 
+            });
+
+            // 更新付款資訊
+            updatePaymentInfo();
+            
+            // 更新最後更新時間
+            updateLastUpdatedTime();
+        }
+
+        function updatePaymentInfo() {
+            const methodMap = {
+                'CASH': '現金付款',
+                'CARD': '信用卡付款',
+                'E_WALLET': '電子錢包付款'
+            };
+
+            const statusMap = {
+                'PENDING': '取餐時付款',
+                'PAID': '已付款',
+                'FAILED': '付款失敗'
+            };
+
+            document.getElementById('paymentMethod').textContent = methodMap[paymentData.paymentMethod] || '現金付款';
+            document.getElementById('paymentStatus').textContent = statusMap[paymentData.paymentStatus] || '取餐時付款';
+            document.getElementById('totalAmount').textContent = `$${paymentData.payableAmount || 200}`;
+
+            // 如果已付款，顯示付款狀態為綠色
+            const statusElement = document.getElementById('paymentStatus');
+            if (paymentData.paymentStatus === 'PAID') {
+                statusElement.classList.add('text-green-600');
+            }
+        }
+
+        function startStatusSimulation() {
+            // 模擬狀態更新
+            setTimeout(() => {
+                if (currentStatus === 'PREPARING') {
+                    updateStatusTo('READY');
+                }
+            }, 10000); // 10秒後變為準備完成
+
+            setTimeout(() => {
+                if (currentStatus === 'READY') {
+                    updateStatusTo('PICKED_UP');
+                }
+            }, 30000); // 30秒後變為已取餐
+        }
+
+        function updateStatusTo(newStatus) {
+            currentStatus = newStatus;
+            const statusElement = document.getElementById(`status-${newStatus}`);
+            const timeElement = document.getElementById(`${newStatus.toLowerCase()}Time`);
+            
+            if (statusElement) {
+                // 移除灰色樣式
+                statusElement.classList.remove('opacity-50');
+                
+                // 更新圓圈樣式
+                const circle = statusElement.querySelector('.w-8');
+                const icon = statusElement.querySelector('.text-sm');
+                const title = statusElement.querySelector('.font-medium');
+                const description = statusElement.querySelector('.text-sm');
+                
+                if (newStatus === 'READY') {
+                    circle.classList.remove('border-2', 'border-gray-300');
+                    circle.classList.add('bg-blue-600');
+                    icon.classList.remove('text-gray-400');
+                    icon.classList.add('text-white');
+                    title.classList.remove('text-gray-400');
+                    title.classList.add('text-gray-900');
+                    description.classList.remove('text-gray-400');
+                    description.classList.add('text-gray-600');
+                } else if (newStatus === 'PICKED_UP') {
+                    circle.classList.remove('border-2', 'border-gray-300');
+                    circle.classList.add('bg-green-600');
+                    icon.classList.remove('text-gray-400');
+                    icon.classList.add('text-white');
+                    title.classList.remove('text-gray-400');
+                    title.classList.add('text-gray-900');
+                    description.classList.remove('text-gray-400');
+                    description.classList.add('text-gray-600');
+                }
+                
+                // 更新時間
+                if (timeElement) {
+                    timeElement.textContent = new Date().toLocaleTimeString('zh-TW', { 
+                        hour: '2-digit', 
+                        minute: '2-digit',
+                        hour12: false 
+                    });
+                    timeElement.classList.remove('text-gray-400');
+                    timeElement.classList.add('text-gray-500');
+                }
+            }
+
+            // 特殊處理
+            if (newStatus === 'READY') {
+                // 顯示準備完成通知
+                showNotification('🔔 餐點已準備完成！', '請前往櫃檯取餐，取餐號碼：' + orderData.pickupNumber);
+            } else if (newStatus === 'PICKED_UP') {
+                // 顯示取餐完成
+                showNotification('✅ 取餐完成！', '感謝您的光臨，祝您用餐愉快！');
+            }
+
+            updateLastUpdatedTime();
+        }
+
+        function showNotification(title, message) {
+            // 簡單的通知提示
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 max-w-mobile mx-4';
+            notification.innerHTML = `
+                <div class="font-semibold">${title}</div>
+                <div class="text-sm opacity-90">${message}</div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        function updateLastUpdatedTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('zh-TW', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: false 
+            });
+            document.getElementById('lastUpdated').textContent = `${timeString} 更新`;
+        }
+
+        function refreshStatus() {
+            // 模擬重新整理
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '🔄 更新中...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.disabled = false;
+                updateLastUpdatedTime();
+                
+                // 模擬小機率狀態變更
+                if (Math.random() < 0.3 && currentStatus === 'PREPARING') {
+                    updateStatusTo('READY');
+                }
+            }, 1500);
+        }
+
+        function newOrder() {
+            // 清除所有 sessionStorage 資料
+            sessionStorage.clear();
+            window.location.href = 'store-select.html';
+        }
+
+        function goToStoreSelect() {
+            window.location.href = 'store-select.html';
+        }
+
+        function openMap() {
+            // 模擬開啟地圖
+            alert('將開啟 Google Maps 導航至台北信義店');
+        }
+
+        // 每 30 秒自動更新時間
+        setInterval(updateLastUpdatedTime, 30000);
+    </script>
+</body>
+</html>

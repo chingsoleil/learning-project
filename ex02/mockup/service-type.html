@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用餐方式 - 點餐系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    maxWidth: {
+                        'mobile': '480px'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 主容器 -->
+    <div class="mx-auto max-w-mobile min-h-screen bg-white shadow-lg">
+        <!-- 標題列 -->
+        <header class="bg-blue-600 text-white p-4">
+            <h1 class="text-lg font-semibold">用餐方式</h1>
+            <div class="text-sm mt-1 opacity-90">步驟 2/9 · 台北信義店</div>
+        </header>
+
+        <!-- 進度條 -->
+        <div class="bg-gray-200 h-2">
+            <div class="bg-blue-600 h-2 transition-all duration-300" style="width: 22.2%"></div>
+        </div>
+
+        <!-- 內容區 -->
+        <main class="p-4 pb-20">
+            <!-- 用餐方式選擇 -->
+            <div class="mb-8">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">請選擇用餐方式</h2>
+                
+                <div class="space-y-4">
+                    <!-- 外帶選項 -->
+                    <label class="block">
+                        <input type="radio" name="serviceType" value="TAKEOUT" class="sr-only" onchange="selectServiceType('TAKEOUT')">
+                        <div class="border-2 border-gray-200 rounded-lg p-6 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" id="takeout-option">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-4 flex items-center justify-center" id="takeout-radio">
+                                    <div class="w-3 h-3 bg-blue-600 rounded-full hidden" id="takeout-dot"></div>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-medium text-gray-900">外帶</h3>
+                                    <p class="text-sm text-gray-600 mt-1">打包帶走，方便快速</p>
+                                </div>
+                                <div class="text-2xl">🥡</div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 內用選項 -->
+                    <label class="block">
+                        <input type="radio" name="serviceType" value="DINE_IN" class="sr-only" onchange="selectServiceType('DINE_IN')">
+                        <div class="border-2 border-gray-200 rounded-lg p-6 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" id="dinein-option">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-4 flex items-center justify-center" id="dinein-radio">
+                                    <div class="w-3 h-3 bg-blue-600 rounded-full hidden" id="dinein-dot"></div>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-medium text-gray-900">內用</h3>
+                                    <p class="text-sm text-gray-600 mt-1">店內用餐，享受舒適環境</p>
+                                </div>
+                                <div class="text-2xl">🍽️</div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 內用額外資訊 -->
+            <div class="hidden" id="dine-in-details">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <h3 class="text-sm font-medium text-blue-900 mb-3">內用資訊</h3>
+                    
+                    <!-- 桌號 -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">桌號（選填）</label>
+                        <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="請輸入桌號" id="tableNumber">
+                    </div>
+
+                    <!-- 人數 -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">用餐人數（選填）</label>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="partySize">
+                            <option value="">請選擇人數</option>
+                            <option value="1">1人</option>
+                            <option value="2">2人</option>
+                            <option value="3">3人</option>
+                            <option value="4">4人</option>
+                            <option value="5">5人</option>
+                            <option value="6">6人以上</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部導覽 -->
+        <footer class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-mobile bg-white border-t border-gray-200 p-4">
+            <div class="flex gap-3">
+                <button class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors" onclick="goBack()">
+                    返回
+                </button>
+                <button class="flex-1 px-6 py-3 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed" id="nextBtn" disabled>
+                    下一步
+                </button>
+                <button class="px-4 py-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors" onclick="goToStoreSelect()">
+                    🏠
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let selectedServiceType = null;
+
+        function selectServiceType(type) {
+            selectedServiceType = type;
+            
+            // 重置所有選項樣式
+            document.querySelectorAll('[id$="-option"]').forEach(option => {
+                option.classList.remove('border-blue-500', 'bg-blue-50');
+                option.classList.add('border-gray-200');
+            });
+            
+            document.querySelectorAll('[id$="-radio"]').forEach(radio => {
+                radio.classList.remove('border-blue-600');
+                radio.classList.add('border-gray-300');
+            });
+            
+            document.querySelectorAll('[id$="-dot"]').forEach(dot => {
+                dot.classList.add('hidden');
+            });
+
+            // 設定選中樣式
+            const selectedOption = document.getElementById(type.toLowerCase().replace('_', '') + '-option');
+            const selectedRadio = document.getElementById(type.toLowerCase().replace('_', '') + '-radio');
+            const selectedDot = document.getElementById(type.toLowerCase().replace('_', '') + '-dot');
+            
+            selectedOption.classList.remove('border-gray-200');
+            selectedOption.classList.add('border-blue-500', 'bg-blue-50');
+            selectedRadio.classList.remove('border-gray-300');
+            selectedRadio.classList.add('border-blue-600');
+            selectedDot.classList.remove('hidden');
+
+            // 顯示/隱藏內用詳細資訊
+            const dineInDetails = document.getElementById('dine-in-details');
+            if (type === 'DINE_IN') {
+                dineInDetails.classList.remove('hidden');
+            } else {
+                dineInDetails.classList.add('hidden');
+            }
+
+            // 啟用下一步按鈕
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+            nextBtn.classList.add('bg-blue-600', 'text-white', 'hover:bg-blue-700');
+            nextBtn.onclick = () => {
+                window.location.href = 'menu.html';
+            };
+        }
+
+        function goBack() {
+            window.location.href = 'store-select.html';
+        }
+
+        function goToStoreSelect() {
+            window.location.href = 'store-select.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>選取門市 - 點餐系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    maxWidth: {
+                        'mobile': '480px'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 主容器 -->
+    <div class="mx-auto max-w-mobile min-h-screen bg-white shadow-lg">
+        <!-- 標題列 -->
+        <header class="bg-blue-600 text-white p-4">
+            <h1 class="text-lg font-semibold">選取門市</h1>
+            <div class="text-sm mt-1 opacity-90">步驟 1/9</div>
+        </header>
+
+        <!-- 進度條 -->
+        <div class="bg-gray-200 h-2">
+            <div class="bg-blue-600 h-2 transition-all duration-300" style="width: 11.1%"></div>
+        </div>
+
+        <!-- 內容區 -->
+        <main class="p-4 pb-20">
+            <!-- 縣市選擇 -->
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">縣市</label>
+                <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="citySelect">
+                    <option value="">請選擇縣市</option>
+                    <option value="taipei">台北市</option>
+                    <option value="newtaipei">新北市</option>
+                    <option value="taoyuan">桃園市</option>
+                    <option value="taichung">台中市</option>
+                </select>
+            </div>
+
+            <!-- 區域選擇 -->
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">行政區</label>
+                <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="districtSelect" disabled>
+                    <option value="">請先選擇縣市</option>
+                </select>
+            </div>
+
+            <!-- 門市清單 -->
+            <div class="mb-6">
+                <h3 class="text-sm font-medium text-gray-700 mb-3">可選門市</h3>
+                <div class="space-y-3" id="storeList">
+                    <!-- 台北信義店 -->
+                    <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all" onclick="selectStore('1', '台北信義店')">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-medium text-gray-900">台北信義店</h4>
+                                <p class="text-sm text-gray-600 mt-1">信義路五段 7 號</p>
+                                <p class="text-sm text-gray-500">營業時間：10:00-22:00</p>
+                            </div>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">營業中</span>
+                        </div>
+                    </div>
+
+                    <!-- 台北中山店 -->
+                    <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all" onclick="selectStore('2', '台北中山店')">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-medium text-gray-900">台北中山店</h4>
+                                <p class="text-sm text-gray-600 mt-1">南京東路一段 23 號</p>
+                                <p class="text-sm text-gray-500">營業時間：10:00-22:00</p>
+                            </div>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">營業中</span>
+                        </div>
+                    </div>
+
+                    <!-- 新北板橋店 -->
+                    <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all" onclick="selectStore('3', '新北板橋店')">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-medium text-gray-900">新北板橋店</h4>
+                                <p class="text-sm text-gray-600 mt-1">文化路一段 100 號</p>
+                                <p class="text-sm text-gray-500">營業時間：10:00-22:00</p>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">繁忙</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部導覽 -->
+        <footer class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-mobile bg-white border-t border-gray-200 p-4">
+            <div class="flex gap-3">
+                <button class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors" disabled>
+                    返回
+                </button>
+                <button class="flex-1 px-6 py-3 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed" id="nextBtn" disabled>
+                    下一步
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let selectedStoreId = null;
+        let selectedStoreName = null;
+
+        function selectStore(storeId, storeName) {
+            selectedStoreId = storeId;
+            selectedStoreName = storeName;
+            
+            // 移除所有選中狀態
+            document.querySelectorAll('#storeList > div').forEach(div => {
+                div.classList.remove('border-blue-500', 'bg-blue-50');
+                div.classList.add('border-gray-200');
+            });
+            
+            // 添加選中狀態
+            event.currentTarget.classList.remove('border-gray-200');
+            event.currentTarget.classList.add('border-blue-500', 'bg-blue-50');
+            
+            // 啟用下一步按鈕
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+            nextBtn.classList.add('bg-blue-600', 'text-white', 'hover:bg-blue-700');
+            nextBtn.onclick = () => {
+                window.location.href = 'service-type.html';
+            };
+        }
+
+        // 縣市區域聯動（簡化版）
+        document.getElementById('citySelect').addEventListener('change', function() {
+            const districtSelect = document.getElementById('districtSelect');
+            const city = this.value;
+            
+            districtSelect.innerHTML = '<option value="">請選擇行政區</option>';
+            districtSelect.disabled = !city;
+            
+            if (city === 'taipei') {
+                districtSelect.innerHTML += '<option value="xinyi">信義區</option><option value="zhongshan">中山區</option>';
+            } else if (city === 'newtaipei') {
+                districtSelect.innerHTML += '<option value="banqiao">板橋區</option>';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>點餐系統 - 頁面導覽</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    maxWidth: {
+                        'mobile': '480px'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 主容器 -->
+    <div class="mx-auto max-w-mobile min-h-screen bg-white shadow-lg">
+        <!-- 標題列 -->
+        <header class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6">
+            <h1 class="text-2xl font-bold text-center">🍽️ 點餐系統</h1>
+            <p class="text-center text-blue-100 mt-2">靜態頁面展示</p>
+        </header>
+
+        <!-- 內容區 -->
+        <main class="p-6">
+            <!-- 專案說明 -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">專案說明</h2>
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <p class="text-gray-700 text-sm leading-relaxed">
+                        這是一個完整的餐廳點餐系統靜態展示，包含 9 個主要頁面，
+                        模擬從選擇門市到完成取餐的完整流程。使用 Tailwind CSS 
+                        打造手機優先的響應式設計。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 技術規格 -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">技術規格</h2>
+                <div class="grid grid-cols-2 gap-3 text-sm">
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <div class="font-medium text-gray-900">前端框架</div>
+                        <div class="text-gray-600">Tailwind CSS</div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <div class="font-medium text-gray-900">設計原則</div>
+                        <div class="text-gray-600">Mobile First</div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <div class="font-medium text-gray-900">螢幕寬度</div>
+                        <div class="text-gray-600">最大 480px</div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <div class="font-medium text-gray-900">資料儲存</div>
+                        <div class="text-gray-600">SessionStorage</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 操作流程頁面 -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">操作流程頁面</h2>
+                <p class="text-sm text-gray-600 mb-4">請依序點擊以下頁面體驗完整點餐流程：</p>
+                
+                <div class="space-y-3">
+                    <!-- 步驟 1 -->
+                    <a href="store-select.html" class="block border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 transition-all">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-4">1</div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900">選取門市</h3>
+                                <p class="text-sm text-gray-600">選擇縣市、行政區及取餐門市</p>
+                            </div>
+                            <div class="text-blue-600">→</div>
+                        </div>
+                    </a>
+
+                    <!-- 步驟 2 -->
+                    <a href="service-type.html" class="block border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 transition-all">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-4">2</div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900">用餐方式</h3>
+                                <p class="text-sm text-gray-600">選擇外帶或內用，填寫相關資訊</p>
+                            </div>
+                            <div class="text-blue-600">→</div>
+                        </div>
+                    </a>
+
+                    <!-- 步驟 3 -->
+                    <a href="menu.html" class="block border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 transition-all">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-4">3</div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900">選擇餐點</h3>
+                                <p class="text-sm text-gray-600">瀏覽菜單，選擇主餐、配菜、飲品等</p>
+                            </div>
+                            <div class="text-blue-600">→</div>
+                        </div>
+                    </a>
+
+                    <!-- 步驟 4 -->
+                    <a href="product.html" class="block border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 transition-all">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-4">4</div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900">餐點選項</h3>
+                                <p class="text-sm text-gray-600">設定辣度、加飯、醬汁等客製化選項</p>
+                            </div>
+                            <div class="text-blue-600">→</div>
+                        </div>
+                    </a>
+
+                    <!-- 步驟 5 -->
+                    <a href="cart.html" class="block border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 transition-all">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-4">5</div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900">購物車</h3>
+                                <p class="text-sm text-gray-600">檢視已選餐點，調整數量，套用優惠</p>
+                            </div>
+                            <div class="text-blue-600">→</div>
+                        </div>
+                    </a>
+
+                    <!-- 步驟 6 -->
+                    <a href="addons.html" class="block border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 transition-all">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-4">6</div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900">加購包裝</h3>
+                                <p class="text-sm text-gray-600">選擇包裝方式，加購推薦商品</p>
+                            </div>
+                            <div class="text-blue-600">→</div>
+                        </div>
+                    </a>
+
+                    <!-- 步驟 7 -->
+                    <a href="pickup.html" class="block border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 transition-all">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-4">7</div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900">取貨資訊</h3>
+                                <p class="text-sm text-gray-600">設定取餐時間，填寫發票資訊</p>
+                            </div>
+                            <div class="text-blue-600">→</div>
+                        </div>
+                    </a>
+
+                    <!-- 步驟 8 -->
+                    <a href="payment.html" class="block border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 transition-all">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-4">8</div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900">付款</h3>
+                                <p class="text-sm text-gray-600">選擇付款方式，確認訂單資訊</p>
+                            </div>
+                            <div class="text-blue-600">→</div>
+                        </div>
+                    </a>
+
+                    <!-- 步驟 9 -->
+                    <a href="order-tracking.html" class="block border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 transition-all">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-4">9</div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900">取餐進度</h3>
+                                <p class="text-sm text-gray-600">查看訂單狀態，等待取餐通知</p>
+                            </div>
+                            <div class="text-green-600">✓</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 快速測試連結 -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">快速測試連結</h2>
+                <p class="text-sm text-gray-600 mb-4">可直接跳到特定頁面進行測試：</p>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <a href="store-select.html" class="bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm text-center hover:bg-blue-200 transition-colors">門市選擇</a>
+                    <a href="service-type.html" class="bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm text-center hover:bg-blue-200 transition-colors">用餐方式</a>
+                    <a href="menu.html" class="bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm text-center hover:bg-blue-200 transition-colors">菜單頁面</a>
+                    <a href="product.html" class="bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm text-center hover:bg-blue-200 transition-colors">商品選項</a>
+                    <a href="cart.html" class="bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm text-center hover:bg-blue-200 transition-colors">購物車</a>
+                    <a href="addons.html" class="bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm text-center hover:bg-blue-200 transition-colors">加購包裝</a>
+                    <a href="pickup.html" class="bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm text-center hover:bg-blue-200 transition-colors">取貨資訊</a>
+                    <a href="payment.html" class="bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm text-center hover:bg-blue-200 transition-colors">付款頁面</a>
+                </div>
+                <a href="order-tracking.html" class="block mt-3 bg-green-100 text-green-800 px-3 py-2 rounded-lg text-sm text-center hover:bg-green-200 transition-colors">取餐進度</a>
+            </div>
+
+            <!-- 功能特色 -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">功能特色</h2>
+                <div class="space-y-3">
+                    <div class="flex items-start">
+                        <div class="text-green-600 mr-3 mt-1">✓</div>
+                        <div>
+                            <div class="font-medium text-gray-900">響應式設計</div>
+                            <div class="text-sm text-gray-600">手機優先，最大寬度 480px</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="text-green-600 mr-3 mt-1">✓</div>
+                        <div>
+                            <div class="font-medium text-gray-900">完整流程</div>
+                            <div class="text-sm text-gray-600">涵蓋門市選擇到取餐完成</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="text-green-600 mr-3 mt-1">✓</div>
+                        <div>
+                            <div class="font-medium text-gray-900">互動體驗</div>
+                            <div class="text-sm text-gray-600">表單驗證、狀態更新、通知提示</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="text-green-600 mr-3 mt-1">✓</div>
+                        <div>
+                            <div class="font-medium text-gray-900">資料一致性</div>
+                            <div class="text-sm text-gray-600">枚舉值與資料庫 schema 完全對應</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="text-green-600 mr-3 mt-1">✓</div>
+                        <div>
+                            <div class="font-medium text-gray-900">無障礙設計</div>
+                            <div class="text-sm text-gray-600">觸控目標 44px+，適當對比度</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 使用說明 -->
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <div class="flex">
+                    <div class="text-yellow-600 mr-2">💡</div>
+                    <div>
+                        <h3 class="font-medium text-yellow-800">使用說明</h3>
+                        <ul class="text-sm text-yellow-700 mt-1 space-y-1">
+                            <li>• 建議從「選取門市」開始依序操作體驗完整流程</li>
+                            <li>• 每個頁面都有獨立的範例資料，可單獨測試</li>
+                            <li>• 使用 SessionStorage 儲存資料，重新整理後會保留</li>
+                            <li>• 清除瀏覽器資料可重置所有流程狀態</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部資訊 -->
+        <footer class="bg-gray-100 p-4 text-center text-sm text-gray-600 border-t">
+            <p>點餐系統靜態展示 © 2024</p>
+            <p class="mt-1">使用 Tailwind CSS 建立</p>
+        </footer>
+    </div>
+
+    <script>
+        // 簡單的歡迎動畫
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('header');
+            header.style.opacity = '0';
+            header.style.transform = 'translateY(-20px)';
+            
+            setTimeout(() => {
+                header.style.transition = 'all 0.6s ease-out';
+                header.style.opacity = '1';
+                header.style.transform = 'translateY(0)';
+            }, 100);
+        });
+
+        // 清除所有 sessionStorage（重置功能）
+        function resetAll() {
+            if (confirm('確定要清除所有資料並重新開始嗎？')) {
+                sessionStorage.clear();
+                alert('已清除所有資料！');
+            }
+        }
+
+        // 添加重置按鈕到頁面（可選）
+        document.addEventListener('DOMContentLoaded', function() {
+            const resetButton = document.createElement('button');
+            resetButton.textContent = '🔄 重置所有資料';
+            resetButton.className = 'fixed top-4 right-4 bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600 transition-colors';
+            resetButton.onclick = resetAll;
+            document.body.appendChild(resetButton);
+        });
+    </script>
+</body>
+</html>

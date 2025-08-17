@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>選擇餐點 - 點餐系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    maxWidth: {
+                        'mobile': '480px'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 主容器 -->
+    <div class="mx-auto max-w-mobile min-h-screen bg-white shadow-lg">
+        <!-- 標題列 -->
+        <header class="bg-blue-600 text-white p-4">
+            <h1 class="text-lg font-semibold">選擇餐點</h1>
+            <div class="text-sm mt-1 opacity-90">步驟 3/9 · 台北信義店 · 外帶</div>
+        </header>
+
+        <!-- 進度條 -->
+        <div class="bg-gray-200 h-2">
+            <div class="bg-blue-600 h-2 transition-all duration-300" style="width: 33.3%"></div>
+        </div>
+
+        <!-- 分類導覽 -->
+        <nav class="bg-white border-b border-gray-200 sticky top-0 z-10">
+            <div class="flex overflow-x-auto scrollbar-hide">
+                <button class="px-4 py-3 text-sm font-medium text-blue-600 border-b-2 border-blue-600 whitespace-nowrap" onclick="showCategory('main')">主餐</button>
+                <button class="px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap" onclick="showCategory('side')">配菜</button>
+                <button class="px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap" onclick="showCategory('drink')">飲品</button>
+                <button class="px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap" onclick="showCategory('dessert')">甜點</button>
+                <button class="px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap" onclick="showCategory('addon')">加購</button>
+            </div>
+        </nav>
+
+        <!-- 內容區 -->
+        <main class="pb-20">
+            <!-- 主餐分類 -->
+            <div class="p-4 category-section" id="main-section">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">主餐</h2>
+                <div class="grid gap-4">
+                    <!-- 招牌牛肉飯 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('1', '招牌牛肉飯', 120)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=牛肉飯" alt="招牌牛肉飯" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">招牌牛肉飯</h3>
+                                <p class="text-sm text-gray-600 mt-1">嫩滑牛肉配香Q白飯</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$120</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 雞腿便當 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('2', '雞腿便當', 110)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=雞腿便當" alt="雞腿便當" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">雞腿便當</h3>
+                                <p class="text-sm text-gray-600 mt-1">香嫩雞腿配時蔬</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$110</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 香煎雞胸 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('11', '香煎雞胸', 115)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=雞胸" alt="香煎雞胸" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">香煎雞胸</h3>
+                                <p class="text-sm text-gray-600 mt-1">低脂健康首選</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$115</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 和風豬排 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('12', '和風豬排', 125)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=豬排" alt="和風豬排" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">和風豬排</h3>
+                                <p class="text-sm text-gray-600 mt-1">酥脆外皮嫩滑內餡</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$125</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 蔬食咖哩飯 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('13', '蔬食咖哩飯', 100)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=咖哩" alt="蔬食咖哩飯" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">蔬食咖哩飯</h3>
+                                <p class="text-sm text-gray-600 mt-1">香濃咖哩配新鮮蔬菜</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$100</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 配菜分類 -->
+            <div class="p-4 category-section hidden" id="side-section">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">配菜</h2>
+                <div class="grid gap-4">
+                    <!-- 酥炸豆腐 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('3', '酥炸豆腐', 50)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=豆腐" alt="酥炸豆腐" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">酥炸豆腐</h3>
+                                <p class="text-sm text-gray-600 mt-1">外酥內嫩，香氣四溢</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$50</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 涼拌小黃瓜 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('4', '涼拌小黃瓜', 45)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=小黃瓜" alt="涼拌小黃瓜" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">涼拌小黃瓜</h3>
+                                <p class="text-sm text-gray-600 mt-1">清爽開胃，解膩首選</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$45</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 滷蛋 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('14', '滷蛋', 15)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=滷蛋" alt="滷蛋" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">滷蛋</h3>
+                                <p class="text-sm text-gray-600 mt-1">香濃滷味，經典配菜</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$15</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 飲品分類 -->
+            <div class="p-4 category-section hidden" id="drink-section">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">飲品</h2>
+                <div class="grid gap-4">
+                    <!-- 紅茶 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('5', '紅茶', 30)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=紅茶" alt="紅茶" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">紅茶</h3>
+                                <p class="text-sm text-gray-600 mt-1">香醇回甘，經典好味</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$30</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 綠茶 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('6', '綠茶', 30)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=綠茶" alt="綠茶" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">綠茶</h3>
+                                <p class="text-sm text-gray-600 mt-1">清香淡雅，健康選擇</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$30</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 奶茶 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('7', '奶茶', 40)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=奶茶" alt="奶茶" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">奶茶</h3>
+                                <p class="text-sm text-gray-600 mt-1">香濃奶香與茶香完美融合</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$40</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 美式咖啡 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('16', '美式咖啡', 45)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=咖啡" alt="美式咖啡" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">美式咖啡</h3>
+                                <p class="text-sm text-gray-600 mt-1">濃郁咖啡香，提神醒腦</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$45</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 甜點分類 -->
+            <div class="p-4 category-section hidden" id="dessert-section">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">甜點</h2>
+                <div class="grid gap-4">
+                    <!-- 布丁 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('8', '布丁', 35)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=布丁" alt="布丁" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">布丁</h3>
+                                <p class="text-sm text-gray-600 mt-1">滑嫩香甜，經典甜品</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$35</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 奶酪 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('9', '奶酪', 35)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=奶酪" alt="奶酪" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">奶酪</h3>
+                                <p class="text-sm text-gray-600 mt-1">濃郁奶香，口感豐富</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$35</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 起司蛋糕 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('18', '起司蛋糕', 65)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=蛋糕" alt="起司蛋糕" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">起司蛋糕</h3>
+                                <p class="text-sm text-gray-600 mt-1">濃郁起司香，入口即化</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$65</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 加購分類 -->
+            <div class="p-4 category-section hidden" id="addon-section">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">加購</h2>
+                <div class="grid gap-4">
+                    <!-- 加購雞塊 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('10', '加購雞塊', 60)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=雞塊" alt="加購雞塊" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">加購雞塊</h3>
+                                <p class="text-sm text-gray-600 mt-1">酥脆雞塊，份量十足</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$60</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 薯條 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('21', '薯條', 40)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=薯條" alt="薯條" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">薯條</h3>
+                                <p class="text-sm text-gray-600 mt-1">金黃酥脆，經典配菜</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$40</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 雞翅 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onclick="selectProduct('22', '雞翅', 55)">
+                        <div class="flex">
+                            <img src="https://placehold.co/120x120/e5e7eb/6b7280?text=雞翅" alt="雞翅" class="w-20 h-20 object-cover">
+                            <div class="flex-1 p-3">
+                                <h3 class="font-medium text-gray-900">雞翅</h3>
+                                <p class="text-sm text-gray-600 mt-1">香嫩多汁，風味絕佳</p>
+                                <p class="text-lg font-semibold text-blue-600 mt-2">$55</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部導覽 -->
+        <footer class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-mobile bg-white border-t border-gray-200 p-4">
+            <div class="flex gap-3">
+                <button class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors" onclick="goBack()">
+                    返回
+                </button>
+                <button class="px-4 py-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors" onclick="goToStoreSelect()">
+                    🏠
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function showCategory(category) {
+            // 隱藏所有分類
+            document.querySelectorAll('.category-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // 重置所有分類按鈕
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('text-blue-600', 'border-blue-600');
+                btn.classList.add('text-gray-500');
+                btn.classList.remove('border-b-2');
+            });
+            
+            // 顯示選中分類
+            document.getElementById(category + '-section').classList.remove('hidden');
+            
+            // 更新選中分類按鈕樣式
+            event.target.classList.remove('text-gray-500');
+            event.target.classList.add('text-blue-600', 'border-blue-600', 'border-b-2');
+        }
+
+        function selectProduct(productId, productName, price) {
+            // 儲存選擇的商品資訊到 sessionStorage（實際應用中使用）
+            sessionStorage.setItem('selectedProduct', JSON.stringify({
+                id: productId,
+                name: productName,
+                price: price
+            }));
+            
+            // 跳轉到商品詳情頁
+            window.location.href = 'product.html';
+        }
+
+        function goBack() {
+            window.location.href = 'service-type.html';
+        }
+
+        function goToStoreSelect() {
+            window.location.href = 'store-select.html';
+        }
+    </script>
+</body>
+</html>

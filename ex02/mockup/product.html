@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>餐點選項 - 點餐系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    maxWidth: {
+                        'mobile': '480px'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 主容器 -->
+    <div class="mx-auto max-w-mobile min-h-screen bg-white shadow-lg">
+        <!-- 標題列 -->
+        <header class="bg-blue-600 text-white p-4">
+            <h1 class="text-lg font-semibold">餐點選項</h1>
+            <div class="text-sm mt-1 opacity-90">步驟 4/9 · 台北信義店 · 外帶</div>
+        </header>
+
+        <!-- 進度條 -->
+        <div class="bg-gray-200 h-2">
+            <div class="bg-blue-600 h-2 transition-all duration-300" style="width: 44.4%"></div>
+        </div>
+
+        <!-- 內容區 -->
+        <main class="pb-20">
+            <!-- 商品資訊 -->
+            <div class="p-4">
+                <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    <img src="https://placehold.co/400x200/e5e7eb/6b7280?text=招牌牛肉飯" alt="招牌牛肉飯" class="w-full h-48 object-cover" id="productImage">
+                    <div class="p-4">
+                        <h2 class="text-xl font-semibold text-gray-900" id="productName">招牌牛肉飯</h2>
+                        <p class="text-gray-600 mt-2">嫩滑牛肉搭配香Q白飯，淋上特製醬汁，是我們的招牌主打餐點。選用優質牛肉，經過精心調味，每一口都是滿滿的幸福感。</p>
+                        <p class="text-2xl font-bold text-blue-600 mt-3" id="displayPrice">$120</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 選項區域 -->
+            <div class="px-4">
+                <!-- 辣度選擇 -->
+                <div class="mb-6" id="spicyOptions">
+                    <h3 class="text-lg font-medium text-gray-900 mb-3">辣度</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="flex items-center">
+                            <input type="radio" name="spicy" value="none" class="sr-only" onchange="updateOptions()">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 cursor-pointer hover:border-blue-500 transition-all option-btn" data-group="spicy" data-value="none">
+                                <div class="text-center">
+                                    <div class="text-lg">😊</div>
+                                    <div class="text-sm font-medium">不辣</div>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="spicy" value="mild" class="sr-only" onchange="updateOptions()">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 cursor-pointer hover:border-blue-500 transition-all option-btn" data-group="spicy" data-value="mild">
+                                <div class="text-center">
+                                    <div class="text-lg">🌶️</div>
+                                    <div class="text-sm font-medium">小辣</div>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="spicy" value="medium" class="sr-only" onchange="updateOptions()">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 cursor-pointer hover:border-blue-500 transition-all option-btn" data-group="spicy" data-value="medium">
+                                <div class="text-center">
+                                    <div class="text-lg">🌶️🌶️</div>
+                                    <div class="text-sm font-medium">中辣</div>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="spicy" value="hot" class="sr-only" onchange="updateOptions()">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 cursor-pointer hover:border-blue-500 transition-all option-btn" data-group="spicy" data-value="hot">
+                                <div class="text-center">
+                                    <div class="text-lg">🌶️🌶️🌶️</div>
+                                    <div class="text-sm font-medium">大辣</div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 加飯選擇 -->
+                <div class="mb-6" id="riceOptions">
+                    <h3 class="text-lg font-medium text-gray-900 mb-3">加飯</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="flex items-center">
+                            <input type="radio" name="rice" value="normal" class="sr-only" onchange="updateOptions()">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 cursor-pointer hover:border-blue-500 transition-all option-btn" data-group="rice" data-value="normal" data-price="0">
+                                <div class="text-center">
+                                    <div class="text-lg">🍚</div>
+                                    <div class="text-sm font-medium">正常</div>
+                                    <div class="text-xs text-gray-500">+$0</div>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="rice" value="extra" class="sr-only" onchange="updateOptions()">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 cursor-pointer hover:border-blue-500 transition-all option-btn" data-group="rice" data-value="extra" data-price="10">
+                                <div class="text-center">
+                                    <div class="text-lg">🍚🍚</div>
+                                    <div class="text-sm font-medium">加飯</div>
+                                    <div class="text-xs text-blue-600 font-medium">+$10</div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 醬汁選擇 -->
+                <div class="mb-6" id="sauceOptions">
+                    <h3 class="text-lg font-medium text-gray-900 mb-3">醬汁</h3>
+                    <div class="grid grid-cols-3 gap-3">
+                        <label class="flex items-center">
+                            <input type="radio" name="sauce" value="normal" class="sr-only" onchange="updateOptions()">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 cursor-pointer hover:border-blue-500 transition-all option-btn" data-group="sauce" data-value="normal">
+                                <div class="text-center">
+                                    <div class="text-sm font-medium">正常</div>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="sauce" value="less" class="sr-only" onchange="updateOptions()">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 cursor-pointer hover:border-blue-500 transition-all option-btn" data-group="sauce" data-value="less">
+                                <div class="text-center">
+                                    <div class="text-sm font-medium">少</div>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="sauce" value="more" class="sr-only" onchange="updateOptions()">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 cursor-pointer hover:border-blue-500 transition-all option-btn" data-group="sauce" data-value="more">
+                                <div class="text-center">
+                                    <div class="text-sm font-medium">多</div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 數量選擇 -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-3">數量</h3>
+                    <div class="flex items-center justify-center gap-4">
+                        <button class="w-12 h-12 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors" onclick="changeQuantity(-1)">
+                            <span class="text-xl">−</span>
+                        </button>
+                        <span class="text-2xl font-semibold w-12 text-center" id="quantity">1</span>
+                        <button class="w-12 h-12 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors" onclick="changeQuantity(1)">
+                            <span class="text-xl">+</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 備註 -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-3">備註</h3>
+                    <textarea class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" rows="3" placeholder="請輸入特殊需求（例如：少油、不要蔥等）" id="customNote"></textarea>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部導覽 -->
+        <footer class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-mobile bg-white border-t border-gray-200 p-4">
+            <div class="flex gap-3">
+                <button class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors" onclick="goBack()">
+                    返回
+                </button>
+                <button class="flex-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" onclick="addToCart()">
+                    <span>加入購物車 </span>
+                    <span id="totalPrice">$120</span>
+                </button>
+                <button class="px-4 py-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors" onclick="goToStoreSelect()">
+                    🏠
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let basePrice = 120;
+        let currentQuantity = 1;
+        let selectedOptions = {
+            spicy: null,
+            rice: null,
+            sauce: null
+        };
+
+        // 初始化頁面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 從 sessionStorage 取得商品資訊
+            const product = JSON.parse(sessionStorage.getItem('selectedProduct') || '{"id":"1","name":"招牌牛肉飯","price":120}');
+            
+            document.getElementById('productName').textContent = product.name;
+            document.getElementById('productImage').src = `https://placehold.co/400x200/e5e7eb/6b7280?text=${encodeURIComponent(product.name)}`;
+            basePrice = parseInt(product.price);
+            
+            updateTotalPrice();
+        });
+
+        function updateOptions() {
+            // 更新選項按鈕樣式
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'bg-blue-50');
+                btn.classList.add('border-gray-200');
+            });
+
+            // 更新選中的選項
+            document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
+                const btn = input.nextElementSibling;
+                btn.classList.remove('border-gray-200');
+                btn.classList.add('border-blue-500', 'bg-blue-50');
+                
+                const group = btn.dataset.group;
+                const value = btn.dataset.value;
+                selectedOptions[group] = {
+                    value: value,
+                    price: parseInt(btn.dataset.price || 0)
+                };
+            });
+
+            updateTotalPrice();
+        }
+
+        function changeQuantity(change) {
+            currentQuantity = Math.max(1, currentQuantity + change);
+            document.getElementById('quantity').textContent = currentQuantity;
+            updateTotalPrice();
+        }
+
+        function updateTotalPrice() {
+            let optionPrice = 0;
+            Object.values(selectedOptions).forEach(option => {
+                if (option && option.price) {
+                    optionPrice += option.price;
+                }
+            });
+            
+            const totalPrice = (basePrice + optionPrice) * currentQuantity;
+            document.getElementById('displayPrice').textContent = `$${basePrice + optionPrice}`;
+            document.getElementById('totalPrice').textContent = `$${totalPrice}`;
+        }
+
+        function addToCart() {
+            // 收集所有選項
+            const cartItem = {
+                productId: JSON.parse(sessionStorage.getItem('selectedProduct')).id,
+                productName: document.getElementById('productName').textContent,
+                unitPrice: basePrice,
+                quantity: currentQuantity,
+                options: selectedOptions,
+                customNote: document.getElementById('customNote').value,
+                lineTotal: parseInt(document.getElementById('totalPrice').textContent.replace('$', ''))
+            };
+
+            // 儲存到購物車（實際應用中會發送到後端）
+            let cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+            cart.push(cartItem);
+            sessionStorage.setItem('cart', JSON.stringify(cart));
+
+            // 跳轉到購物車
+            window.location.href = 'cart.html';
+        }
+
+        function goBack() {
+            window.location.href = 'menu.html';
+        }
+
+        function goToStoreSelect() {
+            window.location.href = 'store-select.html';
+        }
+
+        // 設定選項點擊事件
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const group = this.dataset.group;
+                    const radioInput = this.previousElementSibling;
+                    radioInput.checked = true;
+                    updateOptions();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
