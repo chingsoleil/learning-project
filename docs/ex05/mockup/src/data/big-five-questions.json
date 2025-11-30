@@ -1,0 +1,111 @@
+{
+  "testId": 1,
+  "testName": "大五人格測驗",
+  "testCode": "BF_TEST_01",
+  "version": "1.0",
+  "responseType": "Likert5",
+  "totalQuestions": 50,
+  "timeLimit": 30,
+  "description": "評估個體在五大人格特質上的表現，包含經驗開放性、嚴謹性、外向性、親和性與神經質五個維度。",
+  "dimensions": [
+    {
+      "id": "openness",
+      "code": "O",
+      "nameEn": "Openness",
+      "nameZh": "經驗開放性",
+      "description": "想像力、好奇心、創造力"
+    },
+    {
+      "id": "conscientiousness",
+      "code": "C",
+      "nameEn": "Conscientiousness",
+      "nameZh": "嚴謹性",
+      "description": "組織性、責任感、自律"
+    },
+    {
+      "id": "extraversion",
+      "code": "E",
+      "nameEn": "Extraversion",
+      "nameZh": "外向性",
+      "description": "社交性、活力、積極情緒"
+    },
+    {
+      "id": "agreeableness",
+      "code": "A",
+      "nameEn": "Agreeableness",
+      "nameZh": "親和性",
+      "description": "信任、利他、合作"
+    },
+    {
+      "id": "neuroticism",
+      "code": "N",
+      "nameEn": "Neuroticism",
+      "nameZh": "神經質",
+      "description": "焦慮、情緒不穩定、壓力反應"
+    }
+  ],
+  "answerOptions": [
+    { "value": 1, "label": "非常不同意" },
+    { "value": 2, "label": "不同意" },
+    { "value": 3, "label": "中立" },
+    { "value": 4, "label": "同意" },
+    { "value": 5, "label": "非常同意" }
+  ],
+  "questions": [
+    { "id": 1, "questionOrder": 1, "dimension": "openness", "textZh": "我喜歡嘗試新的食物和活動", "textEn": "I like to try new foods and activities", "reverse": false },
+    { "id": 2, "questionOrder": 2, "dimension": "openness", "textZh": "我對藝術和美學有濃厚興趣", "textEn": "I have a strong interest in art and aesthetics", "reverse": false },
+    { "id": 3, "questionOrder": 3, "dimension": "openness", "textZh": "我偏好熟悉的事物勝過新奇的體驗", "textEn": "I prefer familiar things over novel experiences", "reverse": true },
+    { "id": 4, "questionOrder": 4, "dimension": "openness", "textZh": "我經常思考抽象的概念和理論", "textEn": "I often think about abstract concepts and theories", "reverse": false },
+    { "id": 5, "questionOrder": 5, "dimension": "openness", "textZh": "我富有想像力", "textEn": "I am imaginative", "reverse": false },
+    { "id": 6, "questionOrder": 6, "dimension": "openness", "textZh": "我不喜歡改變既定的計畫", "textEn": "I don't like to change established plans", "reverse": true },
+    { "id": 7, "questionOrder": 7, "dimension": "openness", "textZh": "我對哲學和深層問題感興趣", "textEn": "I am interested in philosophy and deep questions", "reverse": false },
+    { "id": 8, "questionOrder": 8, "dimension": "openness", "textZh": "我喜歡探索新的想法和觀點", "textEn": "I like to explore new ideas and perspectives", "reverse": false },
+    { "id": 9, "questionOrder": 9, "dimension": "openness", "textZh": "我認為傳統方式通常最好", "textEn": "I think traditional ways are usually best", "reverse": true },
+    { "id": 10, "questionOrder": 10, "dimension": "openness", "textZh": "我在社交場合中感到活力充沛", "textEn": "I feel energized in social situations", "reverse": false },
+    
+    { "id": 11, "questionOrder": 11, "dimension": "conscientiousness", "textZh": "我總是按時完成工作", "textEn": "I always complete work on time", "reverse": false },
+    { "id": 12, "questionOrder": 12, "dimension": "conscientiousness", "textZh": "我經常忘記把東西放回原位", "textEn": "I often forget to put things back in their place", "reverse": true },
+    { "id": 13, "questionOrder": 13, "dimension": "conscientiousness", "textZh": "我會仔細規劃我的行程", "textEn": "I carefully plan my schedule", "reverse": false },
+    { "id": 14, "questionOrder": 14, "dimension": "conscientiousness", "textZh": "我在工作上很有條理", "textEn": "I am organized in my work", "reverse": false },
+    { "id": 15, "questionOrder": 15, "dimension": "conscientiousness", "textZh": "我經常拖延重要的事情", "textEn": "I often procrastinate on important things", "reverse": true },
+    { "id": 16, "questionOrder": 16, "dimension": "conscientiousness", "textZh": "我注重細節", "textEn": "I pay attention to details", "reverse": false },
+    { "id": 17, "questionOrder": 17, "dimension": "conscientiousness", "textZh": "我的生活空間常常凌亂", "textEn": "My living space is often messy", "reverse": true },
+    { "id": 18, "questionOrder": 18, "dimension": "conscientiousness", "textZh": "我會設定目標並努力達成", "textEn": "I set goals and work hard to achieve them", "reverse": false },
+    { "id": 19, "questionOrder": 19, "dimension": "conscientiousness", "textZh": "我很少提前為事情做準備", "textEn": "I rarely prepare in advance", "reverse": true },
+    { "id": 20, "questionOrder": 20, "dimension": "conscientiousness", "textZh": "我對自己的責任很認真", "textEn": "I take my responsibilities seriously", "reverse": false },
+    
+    { "id": 21, "questionOrder": 21, "dimension": "extraversion", "textZh": "我在聚會中感到精力充沛", "textEn": "I feel energized at parties", "reverse": false },
+    { "id": 22, "questionOrder": 22, "dimension": "extraversion", "textZh": "我偏好獨處勝過與人相處", "textEn": "I prefer being alone over being with people", "reverse": true },
+    { "id": 23, "questionOrder": 23, "dimension": "extraversion", "textZh": "我很容易與陌生人交談", "textEn": "I easily talk to strangers", "reverse": false },
+    { "id": 24, "questionOrder": 24, "dimension": "extraversion", "textZh": "我喜歡成為關注的焦點", "textEn": "I like being the center of attention", "reverse": false },
+    { "id": 25, "questionOrder": 25, "dimension": "extraversion", "textZh": "我在社交場合中感到不自在", "textEn": "I feel uncomfortable in social situations", "reverse": true },
+    { "id": 26, "questionOrder": 26, "dimension": "extraversion", "textZh": "我有很多朋友", "textEn": "I have many friends", "reverse": false },
+    { "id": 27, "questionOrder": 27, "dimension": "extraversion", "textZh": "我是一個安靜的人", "textEn": "I am a quiet person", "reverse": true },
+    { "id": 28, "questionOrder": 28, "dimension": "extraversion", "textZh": "我喜歡參加熱鬧的活動", "textEn": "I like to attend lively events", "reverse": false },
+    { "id": 29, "questionOrder": 29, "dimension": "extraversion", "textZh": "我不太主動開始對話", "textEn": "I rarely initiate conversations", "reverse": true },
+    { "id": 30, "questionOrder": 30, "dimension": "extraversion", "textZh": "我充滿活力和熱情", "textEn": "I am full of energy and enthusiasm", "reverse": false },
+    
+    { "id": 31, "questionOrder": 31, "dimension": "agreeableness", "textZh": "我關心他人的感受", "textEn": "I care about others' feelings", "reverse": false },
+    { "id": 32, "questionOrder": 32, "dimension": "agreeableness", "textZh": "我不太在乎別人的問題", "textEn": "I don't care much about others' problems", "reverse": true },
+    { "id": 33, "questionOrder": 33, "dimension": "agreeableness", "textZh": "我樂於幫助他人", "textEn": "I am willing to help others", "reverse": false },
+    { "id": 34, "questionOrder": 34, "dimension": "agreeableness", "textZh": "我信任大多數人", "textEn": "I trust most people", "reverse": false },
+    { "id": 35, "questionOrder": 35, "dimension": "agreeableness", "textZh": "我容易與人發生爭執", "textEn": "I easily get into arguments with people", "reverse": true },
+    { "id": 36, "questionOrder": 36, "dimension": "agreeableness", "textZh": "我對他人有同理心", "textEn": "I have empathy for others", "reverse": false },
+    { "id": 37, "questionOrder": 37, "dimension": "agreeableness", "textZh": "我認為人們基本上是自私的", "textEn": "I think people are basically selfish", "reverse": true },
+    { "id": 38, "questionOrder": 38, "dimension": "agreeableness", "textZh": "我善於合作", "textEn": "I am good at cooperating", "reverse": false },
+    { "id": 39, "questionOrder": 39, "dimension": "agreeableness", "textZh": "我有時對他人很粗魯", "textEn": "I am sometimes rude to others", "reverse": true },
+    { "id": 40, "questionOrder": 40, "dimension": "agreeableness", "textZh": "我喜歡讓別人感到舒適", "textEn": "I like to make others feel comfortable", "reverse": false },
+    
+    { "id": 41, "questionOrder": 41, "dimension": "neuroticism", "textZh": "我經常感到焦慮", "textEn": "I often feel anxious", "reverse": false },
+    { "id": 42, "questionOrder": 42, "dimension": "neuroticism", "textZh": "我的心情很穩定", "textEn": "My mood is very stable", "reverse": true },
+    { "id": 43, "questionOrder": 43, "dimension": "neuroticism", "textZh": "我容易感到壓力", "textEn": "I easily feel stressed", "reverse": false },
+    { "id": 44, "questionOrder": 44, "dimension": "neuroticism", "textZh": "我經常擔心事情", "textEn": "I often worry about things", "reverse": false },
+    { "id": 45, "questionOrder": 45, "dimension": "neuroticism", "textZh": "我很少感到沮喪", "textEn": "I rarely feel depressed", "reverse": true },
+    { "id": 46, "questionOrder": 46, "dimension": "neuroticism", "textZh": "我的情緒起伏很大", "textEn": "My emotions fluctuate greatly", "reverse": false },
+    { "id": 47, "questionOrder": 47, "dimension": "neuroticism", "textZh": "我能夠保持冷靜", "textEn": "I can stay calm", "reverse": true },
+    { "id": 48, "questionOrder": 48, "dimension": "neuroticism", "textZh": "我容易被小事激怒", "textEn": "I am easily annoyed by small things", "reverse": false },
+    { "id": 49, "questionOrder": 49, "dimension": "neuroticism", "textZh": "我很少感到緊張", "textEn": "I rarely feel nervous", "reverse": true },
+    { "id": 50, "questionOrder": 50, "dimension": "neuroticism", "textZh": "我經常感到悲觀", "textEn": "I often feel pessimistic", "reverse": false }
+  ]
+}
+
