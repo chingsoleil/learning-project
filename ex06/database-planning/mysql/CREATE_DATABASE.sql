@@ -8,8 +8,12 @@
 -- 建立日期: 2024-12-07
 -- ============================================================================
 -- 說明:
--- 此腳本用於建立心理測驗題庫系統的完整資料庫結構
--- 包含 7 個主要資料表及所有索引和外鍵約束
+-- 建立心理測驗題庫系統資料庫結構（7個資料表）
+-- 
+-- 命名規範：PascalCase（資料庫、表名、欄位名）
+-- 欄位名在所有環境都保持 PascalCase，與 ASP.NET/EF Core 相容 ✅
+-- Windows/Linux, MySQL/MariaDB , 各環境大小寫規客可能有差異
+-- 要在ASP.NET中使用EF Core，必須使用PascalCase命名, 然後加上對應實際TABLE名的設定
 -- ============================================================================
 
 -- ============================================================================
@@ -17,7 +21,9 @@
 -- ============================================================================
 
 -- 刪除既有資料庫（警告：將刪除所有資料）
+-- 注意：如果資料庫名稱大小寫不同，需要手動刪除
 -- DROP DATABASE IF EXISTS PsychometricTestDB;
+DROP DATABASE IF EXISTS psychometrictestdb;  -- 如果存在小寫版本
 
 -- 建立新資料庫
 CREATE DATABASE IF NOT EXISTS PsychometricTestDB
@@ -44,7 +50,7 @@ CREATE TABLE InstrumentCategory (
     Id INT AUTO_INCREMENT PRIMARY KEY COMMENT '主鍵',
     NameEn VARCHAR(100) NOT NULL COMMENT '量表名稱（英文）',
     NameZh VARCHAR(100) NULL COMMENT '量表名稱（中文）',
-    Code VARCHAR(20) NULL COMMENT '量表代碼',
+    Code VARCHAR(100) NULL COMMENT '量表代碼',
     Description VARCHAR(500) NULL COMMENT '量表描述',
     IsActive BOOLEAN NOT NULL DEFAULT 1 COMMENT '是否啟用',
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
@@ -69,7 +75,7 @@ CREATE TABLE TraitCategory (
     Id INT AUTO_INCREMENT PRIMARY KEY COMMENT '主鍵',
     NameEn VARCHAR(100) NOT NULL COMMENT '特質名稱（英文）',
     NameZh VARCHAR(100) NULL COMMENT '特質名稱（中文）',
-    Code VARCHAR(20) NULL COMMENT '特質代碼',
+    Code VARCHAR(100) NULL COMMENT '特質代碼',
     Description VARCHAR(500) NULL COMMENT '特質描述',
     IsActive BOOLEAN NOT NULL DEFAULT 1 COMMENT '是否啟用',
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
@@ -98,8 +104,8 @@ CREATE TABLE QuestionBank (
     TextZh TEXT NOT NULL COMMENT '題目文字（中文）',
     Alpha DECIMAL(5,3) NULL COMMENT '信度係數（0.000-1.000，第一個值）',
     Alpha2 DECIMAL(5,3) NULL COMMENT '信度係數（0.000-1.000，第二個值，部分題目有兩個 alpha 值）',
-    `Key` TINYINT NOT NULL DEFAULT 1 COMMENT '計分方向：1=正向, -1=反向',
-    IPIPItemNumber VARCHAR(50) NULL COMMENT 'IPIP item number（參考用，非唯一）',
+    ScoringKey TINYINT NOT NULL DEFAULT 1 COMMENT '計分鍵：1=正向計分, -1=反向計分',
+    IPIPItemNumber VARCHAR(100) NULL COMMENT 'IPIP item number（參考用，非唯一，可能包含多個編號用逗號分隔）',
     IsActive BOOLEAN NOT NULL DEFAULT 1 COMMENT '是否啟用',
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
     UpdatedAt DATETIME NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
@@ -108,7 +114,7 @@ CREATE TABLE QuestionBank (
     INDEX idx_instrument (InstrumentCategoryId),
     INDEX idx_trait (TraitCategoryId),
     INDEX idx_active (IsActive),
-    INDEX idx_key (`Key`),
+    INDEX idx_scoring_key (ScoringKey),
     
     CONSTRAINT FK_QuestionBank_InstrumentCategory 
         FOREIGN KEY (InstrumentCategoryId) 
@@ -135,7 +141,7 @@ DROP TABLE IF EXISTS TestPaper;
 CREATE TABLE TestPaper (
     Id INT AUTO_INCREMENT PRIMARY KEY COMMENT '主鍵',
     Name VARCHAR(100) NOT NULL COMMENT '測卷名稱',
-    Code VARCHAR(20) NULL COMMENT '測卷代碼',
+    Code VARCHAR(100) NULL COMMENT '測卷代碼',
     Description VARCHAR(1000) NULL COMMENT '測卷說明',
     ResponseType VARCHAR(50) NOT NULL COMMENT '作答方式：Likert5, Likert7, YesNo, MultipleChoice',
     TimeLimit INT NULL COMMENT '作答時間限制（分鐘）',

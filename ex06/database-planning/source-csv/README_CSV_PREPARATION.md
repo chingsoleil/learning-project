@@ -14,13 +14,13 @@
 
 **欄位結構**（7 個欄位）：
 ```csv
-instrument,alpha,key,text_en,text_zh,label,IPIP_item_number
+instrument,alpha,scoring_key,text_en,text_zh,label,IPIP_item_number
 ```
 
 **資料來源**：
 - 使用 Excel 檔案 `DataMerge.xlsx` 整理
 - 合併三個原始 CSV：
-  - `IPIP_items.csv` → 取得 `instrument`, `alpha`, `key`, `text_en`, `label`
+  - `IPIP_items.csv` → 取得 `instrument`, `alpha`, `key`, `text_en`, `label`（`key` 會對應到資料庫的 `ScoringKey` 欄位）
   - `IPIP_items-zh-tw.csv` → 取得 `text_zh`（對應同一列）
   - `IPIP3320.csv` → 取得 `IPIP_item_number`（透過題目文字匹配）
 

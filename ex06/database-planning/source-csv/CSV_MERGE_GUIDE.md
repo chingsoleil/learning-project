@@ -20,7 +20,7 @@ IPIP_items-merged.csv
 | `instrument` | VARCHAR(50) | `IPIP_items.csv` | 量表名稱（英文） | ✅ |
 | `alpha` | DECIMAL(5,3) | `IPIP_items.csv` | 信度係數（第一個值，0.000-1.000） | ❌ 可為空 |
 | `alpha2` | DECIMAL(5,3) | `IPIP_items.csv` | 信度係數（第二個值，部分題目有兩個 alpha 值） | ❌ 可為空 |
-| `key` | TINYINT | `IPIP_items.csv` | 計分方向：1=正向, -1=反向 | ✅ |
+| `key` | TINYINT | `IPIP_items.csv` | 計分鍵：1=正向計分, -1=反向計分（資料庫欄位名稱：ScoringKey） | ✅ |
 | `text_en` | TEXT | `IPIP_items.csv` 的 `text` | 英文題目 | ✅ |
 | `text_zh` | TEXT | `IPIP_items-zh-tw.csv` 的 `text` | 中文題目 | ✅ |
 | `label` | VARCHAR(100) | `IPIP_items.csv` | 特質名稱（英文） | ✅ |
@@ -30,7 +30,7 @@ IPIP_items-merged.csv
 ### CSV 範例（前 3 行）
 
 ```csv
-instrument,alpha,alpha2,key,text_en,text_zh,label,label_zh,IPIP_item_number
+instrument,alpha,alpha2,scoring_key,text_en,text_zh,label,label_zh,IPIP_item_number
 16PF,0.78,,1,Act wild and crazy.,行為狂野瘋狂。,Gregariousness,合群性,H871
 16PF,0.8,,1,Am afraid that I will do the wrong thing.,我擔心自己會做錯事。,Anxiety,焦慮,H905
 16PF,0.76,,1,Am annoyed by others' mistakes.,我會因他人的錯誤而感到煩躁。,Emotionality,情緒性,E82
@@ -47,14 +47,14 @@ instrument,alpha,alpha2,key,text_en,text_zh,label,label_zh,IPIP_item_number
 
 2. **建立新工作表**，設定欄位標題：
    ```
-   instrument,alpha,alpha2,key,text_en,text_zh,label,label_zh,IPIP_item_number
+   instrument,alpha,alpha2,scoring_key,text_en,text_zh,label,label_zh,IPIP_item_number
    ```
 
 3. **複製資料**（確保行順序一致）：
    - `instrument` ← 從英文 CSV 的 `instrument` 欄位
    - `alpha` ← 從英文 CSV 的 `alpha` 欄位（單一值或兩個值的第一個）
    - `alpha2` ← 從英文 CSV 的 `alpha` 欄位（如果有兩個值，取第二個；否則為空）
-   - `key` ← 從英文 CSV 的 `key` 欄位
+   - `scoring_key` ← 從英文 CSV 的 `key` 欄位（資料庫欄位名稱：`ScoringKey`）
    - `text_en` ← 從英文 CSV 的 `text` 欄位
    - `text_zh` ← 從中文 CSV 的 `text` 欄位（對應相同行號）
    - `label` ← 從英文 CSV 的 `label` 欄位
