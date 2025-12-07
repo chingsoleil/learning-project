@@ -156,16 +156,24 @@ SELECT * FROM InstrumentCategory LIMIT 10;
 
 SELECT '=== 開始匯入 TraitCategory ===' AS Status;
 
+-- 修正：使用子查詢先取得 DISTINCT 結果，再用 ROW_NUMBER() 生成序號
+-- 避免 DISTINCT 與使用者變數組合產生非確定性行為
 INSERT INTO TraitCategory (NameEn, NameZh, Code, IsActive, CreatedAt)
-SELECT DISTINCT 
-    en.label AS NameEn,
-    en.label AS NameZh,  -- 暫時使用英文，後續補充中文
-    CONCAT('TRAIT_', LPAD((@row_num := @row_num + 1), 3, '0')) AS Code,
-    1 AS IsActive,
-    NOW() AS CreatedAt
-FROM temp_ipip_items_en en
-CROSS JOIN (SELECT @row_num := 0) AS init
-ORDER BY en.label;
+SELECT 
+    NameEn,
+    NameZh,
+    CONCAT('TRAIT_', LPAD(row_num, 3, '0')) AS Code,
+    IsActive,
+    CreatedAt
+FROM (
+    SELECT DISTINCT 
+        en.label AS NameEn,
+        en.label AS NameZh,  -- 暫時使用英文，後續補充中文
+        1 AS IsActive,
+        NOW() AS CreatedAt,
+        ROW_NUMBER() OVER (ORDER BY en.label) AS row_num
+    FROM temp_ipip_items_en en
+) AS distinct_traits;
 
 -- 驗證
 SELECT '=== TraitCategory 匯入完成 ===' AS Status;
@@ -225,11 +233,13 @@ SELECT '=== QuestionBank 匯入完成 ===' AS Status;
 SELECT COUNT(*) AS Total_Questions FROM QuestionBank;
 
 -- 統計使用 ItemNumber 的題數
+-- 修正：使用更精確的正規表達式，識別單字母或多字母的 ItemNumber
+-- 格式: 字母開頭(可多個) + 數字，例如: H871, Q176, AB5C, HPI123, HEXACO456
 SELECT 
     'With Original ItemNumber' AS Type,
     COUNT(*) AS Count
 FROM QuestionBank
-WHERE QuestionCode REGEXP '^[A-Z][0-9]+'
+WHERE QuestionCode REGEXP '^[A-Z]+[0-9]+'
 UNION ALL
 SELECT 
     'Auto Generated Code' AS Type,
