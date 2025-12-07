@@ -22,11 +22,11 @@
 
 **欄位結構**（9 個欄位）：
 ```csv
-instrument,alpha,alpha2,key,text_en,text_zh,label,label_zh,IPIP_item_number
+instrument,alpha,alpha2,scoring_key,text_en,text_zh,label,label_zh,IPIP_item_number
 ```
 
 **資料來源**：
-- `instrument`, `alpha`, `key`, `text_en`, `label` → 來自 `IPIP_items.csv`
+- `instrument`, `alpha`, `key`, `text_en`, `label` → 來自 `IPIP_items.csv`（合併時將 `key` 改為 `scoring_key`，資料庫欄位名稱：`ScoringKey`）
 - `alpha2` → 從 `alpha` 欄位分離（如果有兩個 alpha 值）
 - `text_zh` → 來自 `IPIP_items-zh-tw.csv`（對應同一列）
 - `label_zh` → 來自 `label_translations_template.csv`（匹配 `label` 欄位）
@@ -145,7 +145,7 @@ label_en,label_zh,description
 
 #### `IPIP_items-merged.csv` 檢查項目：
 
-- [ ] 標題列正確（9 個欄位：instrument, alpha, alpha2, key, text_en, text_zh, label, label_zh, IPIP_item_number）
+- [ ] 標題列正確（9 個欄位：instrument, alpha, alpha2, scoring_key, text_en, text_zh, label, label_zh, IPIP_item_number）
 - [ ] 總共 3,805 列資料（不含標題列）
 - [ ] `instrument` 欄位：36 個不重複值
 - [ ] `label` 欄位：246 個不重複值

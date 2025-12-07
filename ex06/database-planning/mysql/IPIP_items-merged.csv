@@ -1,4 +1,4 @@
-instrument,alpha,alpha2,key,text_en,text_zh,label,label_zh,IPIP_item_number
+instrument,alpha,alpha2,scoring_key,text_en,text_zh,label,label_zh,IPIP_item_number
 16PF,0.78,,1,Act wild and crazy.,行為狂野瘋狂。,Gregariousness,合群性,H871
 16PF,0.8,,1,Am afraid that I will do the wrong thing.,我擔心自己會做錯事。,Anxiety,焦慮,H905
 16PF,0.76,,1,Am annoyed by others' mistakes.,我會因他人的錯誤而感到煩躁。,Emotionality,情緒性,E82
@@ -3804,4 +3804,3 @@ VIA,0.8,,1,Weigh the pro's and the con's.,我權衡利弊。,Judgment/Open-minde
 VIA,0.73,,1,Will succeed with the goals I set for myself.,我會在為自己設定的目標上取得成功。,Hope/Optimism,希望/樂觀,V246
 VIA,0.78,,-1,Work best when I am alone.,我獨自工作效果最好。,Teamwork/Citizenship,團隊合作/公民意識,V132
 VIA,0.7,,1,Would never be described as arrogant.,我永遠不會被形容為傲慢。,Modesty/Humility,謙虛/謙遜,V321
-
