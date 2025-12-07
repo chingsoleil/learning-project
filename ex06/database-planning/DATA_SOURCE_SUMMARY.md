@@ -53,7 +53,8 @@
 - **欄位對應**：
   - `text_en` → `TextEn`（英文題目）
   - `text_zh` → `TextZh`（中文題目）
-  - `alpha` → `Alpha`（信度係數）
+  - `alpha` → `Alpha`（信度係數，第一個值）
+  - `alpha2` → `Alpha2`（信度係數，第二個值，部分題目有）
   - `key` → `Key`（計分方向）
   - `IPIP_item_number` → `IPIPItemNumber`（參考用）
   - `instrument` → 透過 JOIN 取得 `InstrumentCategoryId`（FK）
@@ -142,7 +143,8 @@ QuestionBank（已匯入）
 ### 需要事先準備的資料
 
 1. ✅ **3805 題的合併 CSV 檔案**（`IPIP_items-merged.csv`）
-   - 包含：instrument, label, text_en, text_zh, alpha, key, IPIP_item_number
+   - 包含：instrument, alpha, alpha2, key, text_en, text_zh, label, label_zh, IPIP_item_number
+   - **狀態**：已完成整理，包含中文翻譯和 Alpha 值分離
 
 2. ✅ **（可選）翻譯範本 CSV 檔案**
    - `instrument_translations_template.csv`（36個量表中文翻譯）
@@ -159,5 +161,6 @@ QuestionBank（已匯入）
 
 ---
 
-**最後更新**：2024-12-07
+**最後更新**：2024-12-07  
+**版本**：2.0（已更新欄位結構：新增 alpha2 和 label_zh）
 

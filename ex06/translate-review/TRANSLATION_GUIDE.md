@@ -52,20 +52,18 @@ SELECT DISTINCT label FROM temp_ipip_merged
 ### 檔案結構
 
 #### `instrument_translations_template.csv`
-```csv
-"instrument_en","instrument_zh","description"
-"16PF","",""                    ← 中文欄位是空的
-"BigFive","",""                 ← 需要手動填入
-"NEO","",""                     ← 需要手動填入
-```
+- **欄位**：`instrument_en`, `instrument_zh`, `description`
+- **狀態**：✅ 已完成中文翻譯（36 個量表）
 
 #### `label_translations_template.csv`
-```csv
-"label_en","label_zh","description"
-"Achievement-striving","",""    ← 中文欄位是空的
-"Anxiety","",""                 ← 需要手動填入
-"Openness","",""                ← 需要手動填入
-```
+- **欄位**：`label_en`, `label_zh`, `description`
+- **狀態**：✅ 已完成中文翻譯（246 個特質）
+
+### 重要變更
+
+**CSV 合併檔案已包含 `label_zh` 欄位**：
+- `IPIP_items-merged.csv` 現在包含 9 個欄位，其中 `label_zh` 已填入中文翻譯
+- 匯入時會優先使用 CSV 中的 `label_zh`，其次才使用翻譯範本
 
 ---
 
@@ -87,7 +85,21 @@ SELECT DISTINCT
     ) AS NameZh,
     ...
 FROM temp_ipip_merged tm
-LEFT JOIN temp_instrument_translations trans ON tm.instrument = trans.instrument_en
+LEFT JOIN temp_instrument_translations trans ON tm.instrument = trans.instrument_en;
+
+-- 步驟 5: 匯入 TraitCategory（優先使用 CSV 中的 label_zh）
+INSERT INTO TraitCategory (NameEn, NameZh, ...)
+SELECT DISTINCT 
+    tm.label AS NameEn,
+    -- 優先使用 CSV 中的 label_zh，其次使用翻譯範本，最後使用英文
+    COALESCE(
+        NULLIF(TRIM(tm.label_zh), ''),
+        NULLIF(TRIM(trans.label_zh), ''),
+        tm.label
+    ) AS NameZh,
+    ...
+FROM temp_ipip_merged tm
+LEFT JOIN temp_label_translations trans ON tm.label = trans.label_en;
 ```
 
 **兩種使用方式**：
@@ -218,32 +230,25 @@ ORDER BY Status, NameEn;
 ### 目前狀態
 
 - ✅ **英文名稱**：已自動提取（36 個量表 + 246 個特質）
-- ⚠️ **中文翻譯**：目前為空，需要手動填入
-- ⚠️ **描述**：目前為空，可選填入
+- ✅ **中文翻譯**：已完成翻譯（36 個量表 + 246 個特質）
+- ⚠️ **描述**：部分已完成，可選繼續補充
 
-### 建議填寫方式
+### 翻譯說明
 
-1. **量表翻譯**：可以參考學術文獻或官方翻譯
-   - `16PF` → `十六種人格因素測驗`
-   - `BigFive` → `大五人格測驗`
-   - `NEO` → `NEO 人格量表`
-
-2. **特質翻譯**：可以參考心理學術語翻譯
-   - `Anxiety` → `焦慮`
-   - `Openness` → `開放性`
-   - `Conscientiousness` → `嚴謹性`
-   - `Extraversion` → `外向性`
-   - `Agreeableness` → `親和性`
-   - `Neuroticism` → `神經質`
+翻譯已完成，可直接使用。如需修改或補充，可參考：
+- 心理測驗專業書籍
+- 學術論文中的翻譯
+- 官方測驗手冊
 
 ---
 
 ## ⚠️ 注意事項
 
-1. **不是匯入必需的**：這兩個檔案是**後續補充用**，不影響初始資料匯入
-2. **可以分批完成**：不需要一次填完所有翻譯，可以分批更新
-3. **英文可作為暫時顯示**：如果暫時沒有中文翻譯，系統仍可正常運作（顯示英文）
-4. **建議優先處理常用量表**：可以先翻譯常用的量表（如 BigFive, 16PF, NEO）
+1. **翻譯已完成**：兩個翻譯範本檔案已完成中文翻譯，可直接使用
+2. **匯入優先順序**：
+   - `InstrumentCategory`：優先使用翻譯範本的中文
+   - `TraitCategory`：優先使用 CSV 中的 `label_zh`，其次使用翻譯範本
+3. **可選補充**：如需修改翻譯或補充描述，可直接編輯 CSV 檔案
 
 ---
 
@@ -256,5 +261,6 @@ ORDER BY Status, NameEn;
 
 ---
 
-**最後更新**：2024-12-07
+**最後更新**：2024-12-07  
+**版本**：2.0（翻譯已完成，CSV 已包含 label_zh 欄位）
 

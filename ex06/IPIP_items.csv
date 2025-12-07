@@ -2437,38 +2437,38 @@ HPI-HIC,0.68,1,Withhold information from others.,Rumination
 HPI-HIC,0.79,-1,Worry about things.,Calmness
 HPI-HIC,0.66,-1,Would describe my experiences as somewhat dull.,Variety-seeking
 HPI-HIC,0.81,-1,Yell at people.,Cool-headedness
-IPIP-IPC,.,1,Am a very private person,Introversion
-IPIP-IPC,.,1,Am interested in people,Warmth
-IPIP-IPC,.,1,Am not interested in other people��s problems.,Callousness
-IPIP-IPC,.,1,Am quiet around strangers,Introversion
-IPIP-IPC,.,1,Believe people should fend for themselves.,Callousness
-IPIP-IPC,.,1,Contradict others,Disparagement
-IPIP-IPC,.,1,Cut others to pieces.,Disparagement
-IPIP-IPC,.,1,Demand attention,Dominance
-IPIP-IPC,.,1,Demand to be the center of interest.,Dominance
-IPIP-IPC,.,1,Dislike being the center of attention,Submissiveness
-IPIP-IPC,.,1,Do most of the talking.,Dominance
-IPIP-IPC,.,1,Don't fall for sob stories.,Callousness
-IPIP-IPC,.,1,Don't put a lot of thought into things.,Callousness
-IPIP-IPC,.,1,Don't talk a lot,Introversion
-IPIP-IPC,.,1,Feel comfortable around people,Gregariousness
-IPIP-IPC,.,1,Get along well with others,Warmth
-IPIP-IPC,.,1,Have a sharp tongue,Disparagement
-IPIP-IPC,.,1,Have little to say,Introversion
-IPIP-IPC,.,1,Inquire about others' well-being.,Warmth
-IPIP-IPC,.,1,Let others finish what they are saying.,Submissiveness
-IPIP-IPC,.,1,Love large parties,Gregariousness
-IPIP-IPC,.,1,Reassure others,Warmth
-IPIP-IPC,.,1,Seldom stretch the truth,Tolerance
-IPIP-IPC,.,1,Seldom toot my own horn.,Submissiveness
-IPIP-IPC,.,1,Snap at people,Disparagement
-IPIP-IPC,.,1,Speak loudly.,Dominance
-IPIP-IPC,.,1,Speak softly.,Submissiveness
-IPIP-IPC,.,1,Start conversations,Gregariousness
-IPIP-IPC,.,1,Take things as they come,Tolerance
-IPIP-IPC,.,1,Talk to a lot of different people at parties,Gregariousness
-IPIP-IPC,.,1,Think of others first,Tolerance
-IPIP-IPC,.,1,Tolerate a lot from others.,Tolerance
+IPIP-IPC,,1,Am a very private person,Introversion
+IPIP-IPC,,1,Am interested in people,Warmth
+IPIP-IPC,,1,Am not interested in other people��s problems.,Callousness
+IPIP-IPC,,1,Am quiet around strangers,Introversion
+IPIP-IPC,,1,Believe people should fend for themselves.,Callousness
+IPIP-IPC,,1,Contradict others,Disparagement
+IPIP-IPC,,1,Cut others to pieces.,Disparagement
+IPIP-IPC,,1,Demand attention,Dominance
+IPIP-IPC,,1,Demand to be the center of interest.,Dominance
+IPIP-IPC,,1,Dislike being the center of attention,Submissiveness
+IPIP-IPC,,1,Do most of the talking.,Dominance
+IPIP-IPC,,1,Don't fall for sob stories.,Callousness
+IPIP-IPC,,1,Don't put a lot of thought into things.,Callousness
+IPIP-IPC,,1,Don't talk a lot,Introversion
+IPIP-IPC,,1,Feel comfortable around people,Gregariousness
+IPIP-IPC,,1,Get along well with others,Warmth
+IPIP-IPC,,1,Have a sharp tongue,Disparagement
+IPIP-IPC,,1,Have little to say,Introversion
+IPIP-IPC,,1,Inquire about others' well-being.,Warmth
+IPIP-IPC,,1,Let others finish what they are saying.,Submissiveness
+IPIP-IPC,,1,Love large parties,Gregariousness
+IPIP-IPC,,1,Reassure others,Warmth
+IPIP-IPC,,1,Seldom stretch the truth,Tolerance
+IPIP-IPC,,1,Seldom toot my own horn.,Submissiveness
+IPIP-IPC,,1,Snap at people,Disparagement
+IPIP-IPC,,1,Speak loudly.,Dominance
+IPIP-IPC,,1,Speak softly.,Submissiveness
+IPIP-IPC,,1,Start conversations,Gregariousness
+IPIP-IPC,,1,Take things as they come,Tolerance
+IPIP-IPC,,1,Talk to a lot of different people at parties,Gregariousness
+IPIP-IPC,,1,Think of others first,Tolerance
+IPIP-IPC,,1,Tolerate a lot from others.,Tolerance
 JPI,0.81,1,Accomplish a lot of work.,Activity-Level
 JPI,0.78,-1,Am a very private person.,Sociability
 JPI,0.81,1,Am always busy.,Activity-Level

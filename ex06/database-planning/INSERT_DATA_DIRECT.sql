@@ -19,11 +19,13 @@ DROP TABLE IF EXISTS temp_ipip_merged;
 CREATE TABLE temp_ipip_merged (
     row_id INT AUTO_INCREMENT PRIMARY KEY,
     instrument VARCHAR(50) NOT NULL,
-    alpha DECIMAL(5,3) NULL,
+    alpha DECIMAL(5,3) NULL COMMENT 'alpha 值（第一個值，0.000-1.000）',
+    alpha2 DECIMAL(5,3) NULL COMMENT 'alpha 值（第二個值，部分題目有兩個 alpha 值）',
     `key` TINYINT NOT NULL,
     text_en TEXT NOT NULL COMMENT '英文題目',
     text_zh TEXT NOT NULL COMMENT '中文題目',
     label VARCHAR(100) NOT NULL,
+    label_zh VARCHAR(100) NULL COMMENT '特質名稱（中文）',
     IPIP_item_number VARCHAR(50) NULL COMMENT 'IPIP item number（可選，可為空）',
     INDEX idx_instrument (instrument),
     INDEX idx_label (label),
@@ -36,24 +38,25 @@ COMMENT='合併後的題庫匯入表（臨時）';
 -- ============================================================================
 -- 方法 A: 使用 LOAD DATA INFILE（需要 FILE 權限）
 -- 注意: 請根據實際檔案路徑調整
+-- CSV 檔案位於 ex06/ 資料夾
 
 /*
-LOAD DATA INFILE 'D:/github/learning-project/ex06/IPIP_items-merged.csv'
+LOAD DATA INFILE 'D:/dev/ching/learning-project/ex06/IPIP_items-merged.csv'
 INTO TABLE temp_ipip_merged
 FIELDS TERMINATED BY ',' 
 ENCLOSED BY '"'
 ESCAPED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS
-(instrument, alpha, `key`, text_en, text_zh, label, IPIP_item_number);
+(instrument, alpha, alpha2, `key`, text_en, text_zh, label, label_zh, IPIP_item_number);
 */
 
 -- 方法 B: 使用 DBeaver / MySQL Workbench 的 Import Data 功能（推薦）
 -- 步驟:
 -- 1. 右鍵點擊表 temp_ipip_merged → Import Data
--- 2. 選擇檔案: ex06/IPIP_items-merged.csv
+-- 2. 選擇檔案: learning-project/ex06/IPIP_items-merged.csv
 -- 3. 設定: 欄位分隔符號=逗號, 文字限定符號=雙引號, 忽略第一行
--- 4. 對應欄位: instrument, alpha, key, text_en, text_zh, label, IPIP_item_number
+-- 4. 對應欄位: instrument, alpha, alpha2, key, text_en, text_zh, label, label_zh, IPIP_item_number
 
 -- 驗證資料載入
 SELECT '=== 驗證合併表資料 ===' AS Status;
@@ -88,10 +91,10 @@ COMMENT='特質翻譯範本臨時表';
 
 -- 使用 DBeaver Import Data 匯入翻譯範本（如果已準備好）：
 -- 1. 右鍵 temp_instrument_translations → Import Data
---    → 選擇檔案: ex06/instrument_translations_template.csv
+--    → 選擇檔案: learning-project/ex06/instrument_translations_template.csv
 --    → 對應欄位: instrument_en, instrument_zh, description
 -- 2. 右鍵 temp_label_translations → Import Data
---    → 選擇檔案: ex06/label_translations_template.csv
+--    → 選擇檔案: learning-project/ex06/label_translations_template.csv
 --    → 對應欄位: label_en, label_zh, description
 
 -- 如果未準備翻譯範本，可以跳過上述步驟，SQL 會自動使用英文作為備用
@@ -140,8 +143,9 @@ SELECT
 FROM (
     SELECT DISTINCT 
         tm.label AS NameEn,
-        -- 優先使用翻譯範本的中文，如果沒有則使用英文作為備用
+        -- 優先使用 CSV 中的 label_zh，其次使用翻譯範本，最後使用英文作為備用
         COALESCE(
+            NULLIF(TRIM(tm.label_zh), ''),
             NULLIF(TRIM(trans.label_zh), ''),
             tm.label
         ) AS NameZh,
@@ -170,6 +174,7 @@ INSERT INTO QuestionBank (
     TextEn,
     TextZh,
     Alpha,
+    Alpha2,
     `Key`,
     IPIPItemNumber,
     IsActive,
@@ -180,7 +185,10 @@ SELECT
     tc.Id AS TraitCategoryId,
     tm.text_en AS TextEn,
     tm.text_zh AS TextZh,
+    -- Alpha 值已分離，直接使用
     tm.alpha AS Alpha,
+    -- Alpha2 值已分離，直接使用
+    tm.alpha2 AS Alpha2,
     tm.`key` AS `Key`,
     -- IPIPItemNumber：直接使用 CSV 的 IPIP_item_number，可為空
     NULLIF(TRIM(tm.IPIP_item_number), '') AS IPIPItemNumber,
@@ -240,6 +248,7 @@ SELECT
     qb.TextEn,
     qb.TextZh,
     qb.Alpha,
+    qb.Alpha2,
     qb.`Key`
 FROM QuestionBank qb
 INNER JOIN InstrumentCategory ic ON qb.InstrumentCategoryId = ic.Id

@@ -22,8 +22,8 @@
 6. 建立標題列：`instrument_en,instrument_zh,description`
 7. 建立三欄：
    - `instrument_en`：不重複的 instrument 值（36 個）
-   - `instrument_zh`：留空，等待填入中文翻譯
-   - `description`：留空，等待填入描述
+   - `instrument_zh`：填入中文翻譯（✅ 已完成）
+   - `description`：填入描述（✅ 部分已完成）
 8. 另存為 `instrument_translations_template.csv`（CSV UTF-8 格式）
 
 **結果：** 36 個不重複的量表名稱（如：16PF, BigFive, NEO...）
@@ -35,16 +35,18 @@
 **從 `IPIP_items-merged.csv` 提取不重複的 `label`：**
 
 1. 開啟 `IPIP_items-merged.csv`（或 `IPIP_items.csv`）
-2. 選取 `label` 欄位（F 欄，如果使用 merged CSV）
+2. 選取 `label` 欄位（G 欄，如果使用 merged CSV）
 3. 複製該欄位到新的工作表
 4. 選取資料 → **資料** → **移除重複值**
 5. 排序（選用）
 6. 建立標題列：`label_en,label_zh,description`
 7. 建立三欄：
    - `label_en`：不重複的 label 值（246 個）
-   - `label_zh`：留空，等待填入中文翻譯
+   - `label_zh`：填入中文翻譯（✅ 已完成）
    - `description`：留空，等待填入描述
 8. 另存為 `label_translations_template.csv`（CSV UTF-8 格式）
+
+**注意**：`IPIP_items-merged.csv` 已包含 `label_zh` 欄位，可以直接從該欄位提取中文翻譯
 
 **結果：** 246 個不重複的特質名稱（如：Anxiety, Openness, Conscientiousness...）
 
@@ -248,5 +250,6 @@ Id | InstrumentCategoryId | TraitCategoryId | TextEn                    | TextZh
 
 ---
 
-**最後更新**：2024-12-07
+**最後更新**：2024-12-07  
+**版本**：2.0（翻譯已完成，CSV 結構已更新）
 

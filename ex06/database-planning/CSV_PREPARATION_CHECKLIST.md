@@ -6,9 +6,9 @@
 
 | 檔案名稱 | 狀態 | 用途 | 說明 |
 |---------|------|------|------|
-| `IPIP_items-merged.csv` | ⚠️ 僅標題列 | 主要匯入檔案 | 需填入 3805 題的完整資料 |
-| `instrument_translations_template.csv` | ✅ 已就位 | 量表翻譯範本 | 36 個量表，可填入中文翻譯 |
-| `label_translations_template.csv` | ✅ 已就位 | 特質翻譯範本 | 246 個特質，可填入中文翻譯 |
+| `IPIP_items-merged.csv` | ✅ 已完成 | 主要匯入檔案 | 已包含 3805 題的完整資料（9個欄位） |
+| `instrument_translations_template.csv` | ✅ 已完成 | 量表翻譯範本 | 36 個量表，已完成中文翻譯 |
+| `label_translations_template.csv` | ✅ 已完成 | 特質翻譯範本 | 246 個特質，已完成中文翻譯 |
 
 ---
 
@@ -20,15 +20,22 @@
 
 **目標檔案**：`ex06/IPIP_items-merged.csv`
 
-**欄位結構**（7 個欄位）：
+**欄位結構**（9 個欄位）：
 ```csv
-instrument,alpha,key,text_en,text_zh,label,IPIP_item_number
+instrument,alpha,alpha2,key,text_en,text_zh,label,label_zh,IPIP_item_number
 ```
 
 **資料來源**：
 - `instrument`, `alpha`, `key`, `text_en`, `label` → 來自 `IPIP_items.csv`
+- `alpha2` → 從 `alpha` 欄位分離（如果有兩個 alpha 值）
 - `text_zh` → 來自 `IPIP_items-zh-tw.csv`（對應同一列）
+- `label_zh` → 來自 `label_translations_template.csv`（匹配 `label` 欄位）
 - `IPIP_item_number` → 來自 `IPIP3320.csv`（透過題目文字匹配）
+
+**資料處理**：
+- ✅ Alpha 值已分離為 `alpha` 和 `alpha2` 兩個欄位
+- ✅ 異常值已修正（BIS_BAS 的 1994 和 MPQ 的 12 已改為空值）
+- ✅ 中文翻譯已完成（`label_zh` 欄位已填入）
 
 **資料量**：
 - 總共 **3,805 題**（每一列對應一題）
@@ -138,11 +145,13 @@ label_en,label_zh,description
 
 #### `IPIP_items-merged.csv` 檢查項目：
 
-- [ ] 標題列正確（7 個欄位）
+- [ ] 標題列正確（9 個欄位：instrument, alpha, alpha2, key, text_en, text_zh, label, label_zh, IPIP_item_number）
 - [ ] 總共 3,805 列資料（不含標題列）
 - [ ] `instrument` 欄位：36 個不重複值
 - [ ] `label` 欄位：246 個不重複值
 - [ ] `text_en` 和 `text_zh` 都有值（不能為空）
+- [ ] `alpha` 和 `alpha2` 欄位：已分離，異常值已修正
+- [ ] `label_zh` 欄位：已填入中文翻譯
 - [ ] `IPIP_item_number` 可為空（約 485 題沒有 item number）
 - [ ] 所有中文文字顯示正常（UTF-8 編碼正確）
 
@@ -205,5 +214,6 @@ INTO TABLE temp_ipip_merged
 
 ---
 
-**最後更新**：2024-12-07
+**最後更新**：2024-12-07  
+**版本**：2.0（CSV 結構已更新為 9 個欄位，翻譯已完成）
 
